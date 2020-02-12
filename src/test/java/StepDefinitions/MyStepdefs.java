@@ -16,12 +16,12 @@ public class MyStepdefs {
 
     @When("I open the local host")
     public void iOpenTheLocalHost() {
-        driver.get("https://www.google.com/");
+        driver.get("localhost:3000");
     }
 
     @Then("I verify hello world is present")
     public void iVerifyHelloWorldIsPresent() {
-        boolean status = driver.findElement(By.xpath("//*[@id=\"hplogo\"]")).isDisplayed();
+        boolean status = driver.findElement(By.xpath("//*[@id=\"root\"]/div/p")).isDisplayed();
         Assert.assertEquals(true,status);
     }
 
