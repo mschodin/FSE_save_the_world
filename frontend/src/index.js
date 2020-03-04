@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import LoginPage from './LoginPage';
+//import LoginPage from './containers/LoginPage';
 
 ReactDOM.render(
   //<App />,
-   <LoginPage />,
+   <App />,
   document.getElementById('root')
 );
