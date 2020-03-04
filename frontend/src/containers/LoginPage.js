@@ -11,7 +11,11 @@ export default function LoginPage(props) {
       }
 
       function handleSubmit(event){
-        alert("ASDFASDFASDF");
+        fetch("http://localhost:9000/helloWorldAPI")
+            .then(res => res.text())
+            .then(res => this.setState({ holder: res}))
+            .catch(err => err);
+        alert(this.state.holder);
         event.preventDefault();
       }
 
