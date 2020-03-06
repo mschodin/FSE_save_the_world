@@ -5,24 +5,35 @@ export default function LoginPage(props) {
     
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
+      const [tester, setTester] = useState("");
+      
 
       function validateForm(){
         return email.length > 0 && password.length > 0;
       }
 
-      function handleSubmit(event){
+      function callAPI(){
         fetch("http://localhost:9000/helloWorldAPI")
             .then(res => res.text())
-            .then(res => this.setState({ holder: res}))
+            .then(res => setEmail(res))
+            //.then(res => this.setState({ holder: res}))
             .catch(err => err);
-        alert(this.state.holder);
-        event.preventDefault();
       }
 
+      function submitLogin(){
+        tester = "blank";
+      }
+
+      function handleSubmit(event){
+        event.preventDefault();
+        //callAPI();
+        submitLogin();
+      }
 
       return(
         <div className="LoginPage">
           <h1>SAVE THE WORLD</h1>
+          <h1 name="tester" value={tester}>start</h1>
           <form onSubmit={handleSubmit}>
 
             <div class="container">
