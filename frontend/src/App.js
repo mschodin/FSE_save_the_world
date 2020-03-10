@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import LoginPage from "./containers/LoginPage";
+import Login from "./Login";
+import { Link, Route, Switch } from 'react-router-dom';
+import Home from "./Home";
 
 class App extends Component {
     constructor(props){
         super(props);
         this.state = { value: '' };
     }
+    
       
     //   callAPI(){
     //     fetch("http://localhost:9000/helloWorldAPI")
@@ -24,12 +27,31 @@ class App extends Component {
         });
     };
 
-    // random comment
+
     render(){
-        return React.createElement(LoginPage, {
-        handleChange: this.handleChange,
-        value: this.state.value
-        });
+
+        return (
+            <div>
+                <ul>
+                    <li><Link to="/">Login</Link></li>
+                    <li><Link to="/Home">Home</Link></li>
+                </ul>
+
+                <Switch>
+                    <Route path="/" exact component={Login} />
+                    <Route path="/Home" component={Home} />
+                </Switch>
+            </div>
+        );
+
+        ///////////// THIS RETURNS A CREATED COMPONENT /////////////////
+        // return React.createElement(LoginPage, {
+        // handleChange: this.handleChange,
+        // value: this.state.value
+        // });
+
+
+        ////////// THIS RETURNS AN API RESPONSE //////////////
     //   return (
         //   <div className="App">
         //       <p className="App-intro">{this.state.apiResponse}</p>
