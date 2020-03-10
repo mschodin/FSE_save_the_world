@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Login from "./Login";
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Home from "./Home";
 
 class App extends Component {
@@ -31,17 +31,19 @@ class App extends Component {
     render(){
 
         return (
-            <div>
-                <ul>
-                    <li><Link to="/">Login</Link></li>
-                    <li><Link to="/Home">Home</Link></li>
-                </ul>
+            <Router>
+                <div>
+                    <ul>
+                        <li><Link to="/">Login</Link></li>
+                        <li><Link to="/Home">Home</Link></li>
+                    </ul>
 
-                <Switch>
-                    <Route path="/" exact component={Login} />
-                    <Route path="/Home" component={Home} />
-                </Switch>
-            </div>
+                    <Switch>
+                        <Route path="/" exact component={Login} />
+                        <Route path="/Home" component={Home} />
+                    </Switch>
+                </div>
+            </Router>
         );
 
         ///////////// THIS RETURNS A CREATED COMPONENT /////////////////

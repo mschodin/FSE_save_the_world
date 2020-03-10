@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import LoginPage from "./containers/LoginPage";
 
-
-class LoginPage extends Component {
+class Login extends Component {
     constructor(){
       super();
       this.state = {
@@ -23,4 +23,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default Login;
