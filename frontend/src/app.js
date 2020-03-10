@@ -24,6 +24,7 @@ class App extends Component {
         });
     };
 
+    // random comment
     render(){
         return React.createElement(LoginPage, {
         handleChange: this.handleChange,
