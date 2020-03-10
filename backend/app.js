@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var helloWorldAPIRouter = require("./routes/helloWorldAPI");
 var submitLoginRouter = require("./routes/submitLogin");
+var homeRouter = require("./routes/home");
 
 var app = express();
 
@@ -27,6 +28,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/helloWorldAPI",helloWorldAPIRouter);
 app.use("/submitLogin",submitLoginRouter);
+app.use("/home",homeRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
