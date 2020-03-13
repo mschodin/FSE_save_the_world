@@ -1,3 +1,4 @@
+/*
 // LOAD ENCRYPT LIBRARY
 const CryptoJS = require("crypto-js");
 
@@ -63,4 +64,16 @@ function decrypt(key){
     decipher = decipher.toString(CryptoJS.enc.Utf8);
     return decipher;
 }
+*/
 
+function checkLogin(username, password){
+    if (username == "tester" && password == "password"){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function registerUser(username,password){
+    
+}

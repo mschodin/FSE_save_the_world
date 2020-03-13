@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Login from "./Login";
 import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Home from "./Home";
+import withAuth from './'
 
 class App extends Component {
     constructor(props){
@@ -40,7 +41,7 @@ class App extends Component {
 
                     <Switch>
                         <Route path="/" exact component={Login} />
-                        <Route path="/Home" component={Home} />
+                        <Route path="/Home" component={withAuth(Home)} />
                     </Switch>
                 </div>
             </Router>

@@ -7,7 +7,7 @@ const withAuth = require('../middleware');
 router.use(cookieParser());
 
 router.get('/', withAuth, function(req,res) {
-    res.send("YOUAREHOME");
+    res.status(200).send("YOUAREHOME");
 });
 
 

@@ -1,12 +1,11 @@
 //import registerUser from '../loginpage';
 //import checkLogin from '../loginpage';
-const tst = require('../loginpage');
+const api = require('../loginpage');
 var express = require("express");
 var router = express.Router();
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const withAuth = require('../middleware');
 
 router.use(cookieParser());
 
@@ -16,13 +15,13 @@ router.get('/', function(req,res) {
 
 router.post('/register', function(req, res) {
     const { email, password } = req.body;
-    tst.registerUser(email,password);
-    res.send("Welcome!");
+    api.registerUser(email,password);
+    res.status(200).send("Welcome!");
 });
 
 router.post('/authenticate', function(req, res) {
     const { email, password } = req.body;
-    var loginSuccess = tst.checkLogin(email,password);
+    var loginSuccess = api.checkLogin(email,password);
     if ( loginSuccess ) {
         const payload = { email };
         const token = jwt.sign(payload, secret, {

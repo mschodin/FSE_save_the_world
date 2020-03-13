@@ -21,7 +21,25 @@ export default function LoginPage(props) {
       }
 
       function submitLogin(){
-        tester = "blank";
+        fetch('http://localhost:9000/submitLogin/authenticate', {
+          method: 'POST',
+          body: JSON.stringify({email, password}),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then (res => {
+          if(res.status === 200) {
+            this.props.history.push('/');
+          } else {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Error logging in please try again');
+        });
       }
 
       function handleSubmit(event){
