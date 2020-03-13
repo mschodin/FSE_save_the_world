@@ -22,6 +22,7 @@ con.query(sql, (error, results, fields) => {
 })
 
 function checkLogin(username, password){
+    var userFound = false;
     let sql = 'SELECT * FROM users WHERE username =' + username;
     con.query(sql, (error, results, fields) => {
         if (error) {
@@ -31,10 +32,12 @@ function checkLogin(username, password){
     let dbPassword = results[0][1].users;
     if(dbPassword == encrypt(password)){
         console.log("Login Successful");
+        userFound = true;
     }
     else{
         console.log("Login Failed");
     }
+    return userFound;
 }
 
 function registerUser(username, password){
