@@ -31,6 +31,32 @@ app.use("/submitLogin",submitLoginRouter);
 app.use("/home",homeRouter);
 
 
+
+var api = require('./loginpage');
+const jwt = require('jsonwebtoken');
+const secret = 'secret';
+
+app.post('/authenticate', function(req, res) {
+  const email = req.body.e;
+  const password = req.body.p;
+  var loginSuccess = api.checkLogin(email,password);
+  console.log(loginSuccess);
+  loginSuccess = true;
+  if ( loginSuccess == true ) {
+      const payload = { email };
+      const token = jwt.sign(payload, secret, {
+          expiresIn: '1h'
+      });
+      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+  } else {
+      res.send("login failed");
+  }
+});
+
+
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

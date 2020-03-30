@@ -5,28 +5,24 @@ export default function LoginPage(props) {
     
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
-      const [tester, setTester] = useState("");
       
 
       function validateForm(){
         return email.length > 0 && password.length > 0;
       }
 
-      function callAPI(){
-        fetch("http://localhost:9000/helloWorldAPI")
-            .then(res => res.text())
-            .then(res => setEmail(res))
-            //.then(res => this.setState({ holder: res}))
-            .catch(err => err);
-      }
-
       function submitLogin(){
-        fetch('http://localhost:9000/submitLogin/authenticate', {
+        console.log("Submitting username: ", email, " Submitting password: ", password);
+        fetch('http://localhost:9000/authenticate', {
           method: 'POST',
-          body: JSON.stringify({email, password}),
           headers: {
-            'Content-Type': 'application/json'
-          }
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            e: email, 
+            p: password,
+          })
         })
         .then (res => {
           if(res.status === 200) {
@@ -51,7 +47,6 @@ export default function LoginPage(props) {
       return(
         <div className="LoginPage">
           <h1>SAVE THE WORLD</h1>
-          <h1 name="tester" value={tester}>start</h1>
           <form onSubmit={handleSubmit}>
 
             <div class="container">

@@ -66,14 +66,32 @@ function decrypt(key){
 }
 */
 
-function checkLogin(username, password){
-    if (username == "tester" && password == "password"){
-        return true;
-    } else {
-        return false;
-    }
-}
+
+
+
+
+
+
+
+// function checkLogin(username, password){
+//     if (username == "tester" && password == "password"){
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 function registerUser(username,password){
     
 }
+
+
+module.exports = {
+    checkLogin: function(username, password) {
+        if (username == "tester" && password == "password"){
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
