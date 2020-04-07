@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 var logger = require('morgan');
 var cors = require("cors");
 
@@ -35,6 +36,9 @@ app.use("/home",homeRouter);
 var api = require('./loginpage');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+const withAuth = require('./middleware');
 
 app.post('/authenticate', function(req, res) {
   const email = req.body.e;
@@ -54,6 +58,9 @@ app.post('/authenticate', function(req, res) {
 });
 
 
+app.get('/token', withAuth, function(req, res) {
+  res.sendStatus(200);
+});
 
 
 

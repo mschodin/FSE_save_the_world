@@ -12,7 +12,7 @@ export default function withAuth(ComponentToProtect) {
       }
   
       componentDidMount() {
-        fetch('http://localhost:9000/submitLogin/checkToken')
+        fetch('http://localhost:9000/token')
           .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
