@@ -33,6 +33,24 @@ app.use("/home",homeRouter);
 
 
 
+
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'localhost:3000',
+    ],
+  })
+);
+
+
+// const testoptions = {
+//   origin: "butts"
+// };
+
+
+
+
 var api = require('./loginpage');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
@@ -40,12 +58,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const withAuth = require('./middleware');
 
+
 app.post('/authenticate', function(req, res) {
+  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  //res.send();
   const email = req.body.e;
   const password = req.body.p;
   var loginSuccess = api.checkLogin(email,password);
   console.log(loginSuccess);
-  loginSuccess = true;
   if ( loginSuccess == true ) {
       const payload = { email };
       const token = jwt.sign(payload, secret, {
@@ -53,7 +73,7 @@ app.post('/authenticate', function(req, res) {
       });
       res.cookie('token', token, { httpOnly: true }).sendStatus(200);
   } else {
-      res.send("login failed");
+      res.sendStatus(410);
   }
 });
 

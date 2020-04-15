@@ -9,18 +9,6 @@ class App extends Component {
         super(props);
         this.state = { value: '' };
     }
-    
-      
-    //   callAPI(){
-    //     fetch("http://localhost:9000/helloWorldAPI")
-    //         .then(res => res.text())
-    //         .then(res => this.setState({ apiResponse: res}))
-    //         .catch(err => err);
-    //   }
-      
-    //   componentDidMount(){
-    //     this.callAPI();
-    //   }
 
     handleChange = (e) => {
         this.setState({
@@ -30,7 +18,6 @@ class App extends Component {
 
 
     render(){
-
         return (
             <Router>
                 <div>
@@ -46,21 +33,6 @@ class App extends Component {
                 </div>
             </Router>
         );
-
-        ///////////// THIS RETURNS A CREATED COMPONENT /////////////////
-        // return React.createElement(LoginPage, {
-        // handleChange: this.handleChange,
-        // value: this.state.value
-        // });
-
-
-        ////////// THIS RETURNS AN API RESPONSE //////////////
-    //   return (
-        //   <div className="App">
-        //       <p className="App-intro">{this.state.apiResponse}</p>
-        //   </div>
-
-    //   );
     }
 }
 

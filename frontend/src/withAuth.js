@@ -12,7 +12,9 @@ export default function withAuth(ComponentToProtect) {
       }
   
       componentDidMount() {
-        fetch('http://localhost:9000/token')
+        fetch('http://localhost:9000/token', {
+          credentials: 'include'
+        })
           .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });

@@ -9,7 +9,9 @@ export default class Home extends Component {
   }
   
   componentDidMount() {
-    fetch('http://localhost:9000/home')
+    fetch('http://localhost:9000/home', {
+      credentials: 'include'
+    })
       .then(res => res.text())
       .then(res => this.setState({message: res}));
   }
