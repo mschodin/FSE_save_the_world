@@ -1,4 +1,3 @@
-
 // LOAD ENCRYPT LIBRARY
 const CryptoJS = require("crypto-js");
 
