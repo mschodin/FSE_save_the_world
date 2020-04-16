@@ -43,7 +43,6 @@ app.post('/authenticate', function(req, res) {
   const email = req.body.e;
   const password = req.body.p;
   var loginSuccess = dbapi.checkLoginTest(email,password);
-  console.log(loginSuccess);
   if ( loginSuccess == true ) {
       const payload = { email };
       const token = jwt.sign(payload, secret, {
@@ -52,6 +51,21 @@ app.post('/authenticate', function(req, res) {
       res.cookie('token', token, { httpOnly: true }).sendStatus(200);
   } else {
       res.sendStatus(410);
+  }
+});
+
+app.post('/register', function(req,res) {
+  const email = req.body.e;
+  const password = req.body.p;
+  var registerSuccess = dbapi.registerUserTest(email,password);
+  if(registerSuccess == true){
+    const payload = { email };
+      const token = jwt.sign(payload, secret, {
+          expiresIn: '1h'
+      });
+      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+  } else {
+    res.sendStatus(410);
   }
 });
 

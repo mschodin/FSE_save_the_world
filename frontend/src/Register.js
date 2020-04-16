@@ -1,24 +1,24 @@
 import React, { Component } from "react";
-import './containers/LoginPage.css';
+import './containers/Register.css';
 
-export default class Login extends Component {
+export default class Register extends Component {
     
       constructor(props) {
         super(props)
         this.state = {
           email: '',
-          password: ''
+          password: '',
+          repeatpassword: ''
         };
       }
-      
 
       validateForm = () => {
         return this.state.email.length > 0 && this.state.password.length > 0;
       }
 
-      submitLogin = (event) => {
+      registerUser = (event) => {
         event.preventDefault();
-        fetch('http://localhost:9000/authenticate', {
+        fetch('http://localhost:9000/register', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -40,25 +40,29 @@ export default class Login extends Component {
         })
         .catch(err => {
           console.error(err);
-          alert('Error logging in please try again');
+          alert('Error registering user, please try again');
         });
       }
 
-      handleSubmit = (event) => {
+      login = (event) => {
         event.preventDefault();
-        this.submitLogin(event);
+        this.props.history.push('/');
       }
 
-      signUp = (event) => {
-        event.preventDefault();
-        this.props.history.push('/register');
+      submitRegister = (event) => {
+          if(this.state.password !== this.state.repeatpassword){
+              alert("Password does not match");
+          }
+          else{
+              this.registerUser(event);
+          }
       }
 
       render() {
         return(
           <div className="LoginPage">
             <h1>SAVE THE WORLD</h1>
-            <form onSubmit={this.submitLogin}>
+            <form onSubmit={this.submitRegister}>
   
               <div className="container">
                 <label><b>Email:</b></label>
@@ -66,15 +70,18 @@ export default class Login extends Component {
               
                 <label><b>Password:</b></label>
                 <input name="password" type="password" value={this.state.password} onChange={e => this.setState({ password: e.target.value})} />
+
+                <label class="repeat"><b>Repeat Password:</b></label>
+                <input name="repeatpassword" type="password" value={this.state.repeatpassword} onChange={e => this.setState({ repeatpassword: e.target.value})} />
               
-                <button type="submit" disabled={!this.validateForm}>Login</button>
+                <button type="submit" disabled={!this.validateForm}>Register</button>
               </div>
               
             </form>
 
-            <form onSubmit={this.signUp}>
+            <form onSubmit={this.login}>
               <div className="container">
-                <button class="signup" type="signup">Sign Up</button>
+                <button class="login">Back to Login</button>
               </div>
             </form>
           </div>
