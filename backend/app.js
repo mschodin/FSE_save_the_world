@@ -29,7 +29,7 @@ app.use('/users', usersRouter);
 app.use("/helloWorldAPI",helloWorldAPIRouter);
 app.use("/home",homeRouter);
 
-var api = require('./loginpage');
+var dbapi = require('./loginpage');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,10 +37,12 @@ app.use(bodyParser.json());
 const withAuth = require('./middleware');
 
 
+
+
 app.post('/authenticate', function(req, res) {
   const email = req.body.e;
   const password = req.body.p;
-  var loginSuccess = api.checkLogin(email,password);
+  var loginSuccess = dbapi.checkLoginTest(email,password);
   console.log(loginSuccess);
   if ( loginSuccess == true ) {
       const payload = { email };
@@ -56,6 +58,10 @@ app.post('/authenticate', function(req, res) {
 app.get('/token', withAuth, function(req, res) {
   res.sendStatus(200);
 });
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
