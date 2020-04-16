@@ -36,6 +36,7 @@ module.exports = {
     registerUserTest: function(username,password){
         newUser = username;
         newPass = password;
+        return true;
     },
 
     decrypt: function(key) {
@@ -60,6 +61,7 @@ module.exports = {
             }
         })
         console.log("Account Registered");
+        return true;
     },
 
     checkLogin: function(username, password){

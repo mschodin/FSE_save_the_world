@@ -1,0 +1,71 @@
+
+form {
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  h1{
+    font-size: 100px;
+    text-align: center;
+    font-family: "Brush Script MT", cursive;
+  }
+  
+  input[type=text], input[type=password],input[type=repeatpassword]{
+    width: 25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right:auto;
+  }
+  
+  label{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    width: 6em;
+  }
+
+  .repeat{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    width: 12em;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 25%;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .login{
+    background-color: rgb(255, 0, 0);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 25%;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+  }
+  
+  .newline{
+    padding: 16px;
+    display: block;
+  }
