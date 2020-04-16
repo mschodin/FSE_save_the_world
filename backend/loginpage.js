@@ -68,19 +68,6 @@ function decrypt(key){
 
 
 
-
-
-
-
-
-// function checkLogin(username, password){
-//     if (username == "tester" && password == "password"){
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 function registerUser(username,password){
     
 }

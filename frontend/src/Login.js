@@ -1,31 +1,3 @@
-// import React, { Component } from 'react';
-// import LoginPage from "./containers/LoginPage";
-
-// class Login extends Component {
-//     constructor(){
-//       super();
-//       this.state = {
-//         message: 'loading........'
-//       }
-//     }
-
-//     componentDidMount() {
-//       fetch("http://localhost:9000/submitLogin")
-//         .then(res => res.text())
-//         .then(res => this.setState({message: res}))
-//     }
-
-//     render() {
-//         return React.createElement(LoginPage, {
-//         handleChange: this.handleChange,
-//         value: this.state.value
-//         });
-//     }
-// }
-
-// export default Login;
-
-
 import React, { Component } from "react";
 import './containers/LoginPage.css';
 
@@ -61,7 +33,6 @@ export default class Login extends Component {
         .then (res => {
           if(res.status === 200) {
             this.props.history.push('/home');
-            alert("in here");
           } else {
             const error = new Error(res.error);
             throw error;
@@ -75,7 +46,6 @@ export default class Login extends Component {
 
       handleSubmit = (event) => {
         event.preventDefault();
-        //callAPI();
         this.submitLogin(event);
       }
 
