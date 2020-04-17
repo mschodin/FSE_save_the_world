@@ -24,46 +24,40 @@ export default class Home extends Component {
           <Tabs>
             <div label="Home">Thank you for helping save the world!</div>
             <div label="Request">
-              <div className="Form">
-                <form
-                    name="myForm"
-                    action="/action_page.php"
-                    onsubmit="return validateForm()"
-                    method="post"
-                >
-                  <b>Item:</b> <input type="text" name="item-input" />
-                  <br />
-                  <b>Amount:</b> <input type="text" name="amount-input" />
-                  <br />
-                  <b>Location:</b> <input type="text" name="location-input" />
-                  <br />
-                  <br />
-                  <button type="submit" font-size="30px">
-                    Submit Request
-                  </button>
-                </form>
-              </div>
+              <form onSubmit={this.submitRequest}>
+
+                <div className="container">
+                  <label><b>Item:</b></label>
+                  <input name="item" type="text" value={this.state.item} onChange={e => this.setState({ item: e.target.value})}/>
+
+                  <label><b>Amount:</b></label>
+                  <input name="amount" type="text" value={this.state.amount} onChange={e => this.setState({ amount: e.target.value})} />
+
+                  <label><b>Location:</b></label>
+                  <input name="location" type="text" value={this.state.location} onChange={e => this.setState({ location: e.target.value})} />
+
+                  <button type="submit" disabled={!this.validateForm}>Submit Request</button>
+                </div>
+
+              </form>
             </div>
             <div label="Pledge">
-              <div className="Form">
-                <form
-                    name="myForm"
-                    action="/action_page.php"
-                    onsubmit="return validateForm()"
-                    method="post"
-                >
-                  <b>Item:</b> <input type="text" name="item-input" />
-                  <br />
-                  <b>Amount:</b> <input type="text" name="amount-input" />
-                  <br />
-                  <b>Location:</b> <input type="text" name="location-input" />
-                  <br />
-                  <br />
-                  <button type="submit" disabled={!this.validateForm}>
-                    Pledge Item
-                  </button>
-                </form>
-              </div>
+              <form onSubmit={this.submitRequest}>
+
+                <div className="container">
+                  <label><b>Item:</b></label>
+                  <input name="item" type="text" value={this.state.item} onChange={e => this.setState({ item: e.target.value})}/>
+
+                  <label><b>Amount:</b></label>
+                  <input name="amount" type="text" value={this.state.amount} onChange={e => this.setState({ amount: e.target.value})} />
+
+                  <label><b>Location:</b></label>
+                  <input name="location" type="text" value={this.state.location} onChange={e => this.setState({ location: e.target.value})} />
+
+                  <button type="submit" disabled={!this.validateForm}>Submit Donation</button>
+                </div>
+
+              </form>
             </div>
             <div label="Match">
               <div class="row">
@@ -106,23 +100,21 @@ export default class Home extends Component {
                 </div>
 
               </div>
-              <div className="Form">
-                <form
-                    name="myForm"
-                    action="/action_page.php"
-                    onSubmit="return validateForm()"
-                    method="post"
-                >
-                  <b>Donation Id:</b><input type="text" name="don-id-input" />
-                  <br />
-                  <b>Request Id:</b><input type="text" name="req-id-input" />
-                  <br />
-                  <br />
-                  <button type="submit" disabled={!this.validateForm}>
-                    Match Items
-                  </button>
-                </form>
-              </div>
+              <br></br>
+              <br></br>
+              <form onSubmit={this.submitRequest}>
+
+                <div className="container">
+                  <label><b>Donation Id:</b></label>
+                  <input name="donid" type="text" value={this.state.donid} onChange={e => this.setState({ donid: e.target.value})}/>
+
+                  <label><b>Request Id:</b></label>
+                  <input name="reqid" type="text" value={this.state.reqid} onChange={e => this.setState({ reqid: e.target.value})} />
+
+                  <button type="submit" disabled={!this.validateForm}>Match Donation and Request</button>
+                </div>
+
+              </form>
             </div>
           </Tabs>
         </div>
