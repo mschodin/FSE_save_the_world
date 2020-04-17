@@ -78,6 +78,30 @@ app.get('/token', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
+app.post('/newrequest', function(req,res) {
+  const location = req.body.location;
+  const item = req.body.item;
+  const amount = req.body.amount;
+  const id = dbapi.getNextID();
+  dbapi.storeNewRequest(location, item, amount, id);
+});
+
+app.post('/newdonation', function(req,res) {
+  const location = req.body.location;
+  const item = req.body.item;
+  const amount = req.body.amount;
+  const id = dbapi.getNextID();
+  dbapi.storeNewDonation(location, item, amount, id);
+});
+
+app.post('/makematch', function(req,res) {
+  const id1 = req.body.id1;
+  const type1 = req.body.type1;
+  const id2 = req.body.id2;
+  const type2 = req.body.type2;
+  dbapi.makeMatch(id1,type1,id2,type2);
+});
+
 
 
 
