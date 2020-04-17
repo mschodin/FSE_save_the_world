@@ -17,7 +17,12 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(cors());
+options = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+};
+
+app.use(cors(options));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,10 +43,10 @@ const withAuth = require('./middleware');
 
 
 
-
 app.post('/authenticate', function(req, res) {
   const email = req.body.e;
   const password = req.body.p;
+
   var loginSuccess = dbapi.checkLoginTest(email,password);
   if ( loginSuccess == true ) {
       const payload = { email };
