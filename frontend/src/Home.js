@@ -12,7 +12,7 @@ export default class Home extends Component {
       pledgeAmount: '',
       pledgeLocation: '',
       donid: '',
-      reqid: ''
+      reqid: '',
       request: [
         { id: 1, item: 'food', amount: 2, location: 'iowa city' },
         { id: 2, item: 'wood', amount: 12, location: 'new york' },
