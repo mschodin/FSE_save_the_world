@@ -7,7 +7,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     port: '3308',
     user: 'root',
-    password: 'password',
+    password: '',
     database: 'savetheworld'
 });
 
@@ -24,9 +24,11 @@ function viewDonations(itemName='*', location='*', amount='*', email='*'){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
+    return true;
 }
 
 function addDonations(itemName, location, amount, email){
@@ -35,20 +37,24 @@ function addDonations(itemName, location, amount, email){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Donation Registered");
+    return true;
 }
 
 function removeDonations(iditemDonate){
     let sql = 'DELETE FROM savetheworld.itemdonations WHERE iditemDonate =' + mysql.escape(iditemDonate);
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Donation Removed");
+    return true;
 }
 
 function subtractDonations(iditemDonate, subtract){

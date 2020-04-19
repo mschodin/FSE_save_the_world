@@ -7,7 +7,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     port: '3308',
     user: 'root',
-    password: 'password',
+    password: '',
     database: 'savetheworld'
 });
 
@@ -24,9 +24,11 @@ function viewRequests(itemName='*', location='*', amount='*', email='*'){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
+    return true;
 }
 
 function addRequest(itemName, location, amount, email){
@@ -35,20 +37,24 @@ function addRequest(itemName, location, amount, email){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Request Registered");
+    return true;
 }
 
 function removeRequest(iditemRequest){
     let sql = 'DELETE FROM savetheworld.itemrequests WHERE iditemRequest =' + mysql.escape(iditemRequest);
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Request Removed");
+    return true;
 }
 
 function subtractRequest(iditemRequest, subtract){
@@ -60,3 +66,5 @@ function subtractRequest(iditemRequest, subtract){
     })
     console.log("Request subtracted");
 }
+module.exports = {addRequest, removeRequest, viewRequests, subtractRequest}
+
