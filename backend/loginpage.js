@@ -19,19 +19,8 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
-function createObject(loc, itm, amt, i){
-    var obj = {
-        location: loc,
-        item: itm,
-        amount: amt,
-        id: i
-    };
-    return obj;
-}
-
 let newUser  = "xxxxxxx";
 let newPass = "xxxxxxxx";
-let tempID = 50;
 
 module.exports = {
     checkLoginTest: function(username, password) {
@@ -62,33 +51,42 @@ module.exports = {
         return cipher
     },
 
-    registerUser: function(username, password){
-        let sql ='INSERT INTO savetheworld.users(Username,Password) VALUES('+username+','+password+')';
+    registerUser: function(username, password, res, token){
+        let sql ="INSERT INTO savetheworld.users(Username,Password) VALUES('"+username+"','"+password+"')";
         con.query(sql, (error, results, fields) => {
             if (error) {
-                return console.error(error.message);
+                console.error(error.message);
+                res.sendStatus(421);
+            } else {
+                res.cookie('token', token, { httpOnly: true }).sendStatus(200);
             }
         })
         console.log("Account Registered");
         return true;
     },
 
-    checkLogin: function(username, password){
-        var userFound = false;
-        let sql = 'SELECT * FROM users WHERE username =' + username;
+    checkLogin: function(username, password, res, token){
+        let sql = "SELECT * FROM savetheworld.users WHERE Username='" + username + "'";
+        let dbPassword = '';
+
         con.query(sql, (error, results, fields) => {
             if (error) {
-                return console.error(error.message);
+                console.error(error.message);
             }
-        })
-        let dbPassword = results[0][1].users;
-        if(dbPassword == encrypt(password)){
-            console.log("Login Successful");
-            userFound = true;
-        }
-        else{
-            console.log("Login Failed");
-        }
-        return userFound;
+            try{
+                dbPassword = results[0].Password;
+                if(dbPassword == password){
+                    res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+                } else {
+                    console.log("Incorrect password");
+                    res.sendStatus(415);
+                }
+            } catch {
+                console.log("No user found");
+                res.sendStatus(414);
+            }
+        });
     }
 };
+
+
