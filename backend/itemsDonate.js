@@ -24,9 +24,11 @@ function viewRequests(itemName='*', location='*', amount='*', email='*'){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
+    return true;
 }
 
 function addRequest(itemName, location, amount, email){
@@ -35,18 +37,22 @@ function addRequest(itemName, location, amount, email){
 
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Donation Registered");
+    return true;
 }
 
 function removeRequest(iditemRequest){
     let sql = 'DELETE FROM savetheworld.itemdonations WHERE iditemDonate =' + mysql.escape(iditemRequest);
     con.query(sql, (error, results, fields) => {
         if (error) {
-            return console.error(error.message);
+            console.error(error.message);
+            return false;
         }
     })
     console.log("Donation Removed");
+    return true;
 }

@@ -90,32 +90,5 @@ module.exports = {
             console.log("Login Failed");
         }
         return userFound;
-    },
-
-    getNextID: function(){
-        // TODO: FUNCTION TO GET NEXT ID FROM DATABASE, RETURN IT, AND INCREMENT IT BY 1 AND STORE BACK IN THE DATABASE
-        var nextID = tempID;
-        tempID = tempID + 1;
-        return nextID;
-    },
-
-    storeNewRequest: function(location, item, amount, id) {
-        // TODO: Store in the requests table
-    },
-
-    storeNewDonation: function(location, item, amount, id) {
-        // TODO: Store in the donations table
-    },
-
-    removeRequest: function(id){
-        // TODO: Remove request with id from the requests table
-    },
-
-    removeDonation: function(id){
-        // TODO: Remove donation with id from the donation table
-    },
-
-    makeMatch: function(id1, type1, id2, type2){
-        // create new match in the matches table with the request and donation given
-    },
+    }
 };
