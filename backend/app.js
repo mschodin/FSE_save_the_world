@@ -82,16 +82,16 @@ app.post('/newrequest', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  const id = dbapi.getNextID();
-  dbapi.storeNewRequest(location, item, amount, id);
+  dbapi.storeNewRequest(location, item, amount);
+  res.sendStatus(200);
 });
 
 app.post('/newdonation', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  const id = dbapi.getNextID();
-  dbapi.storeNewDonation(location, item, amount, id);
+  dbapi.storeNewDonation(location, item, amount);
+  res.sendStatus(200);
 });
 
 app.post('/makematch', function(req,res) {
@@ -100,6 +100,7 @@ app.post('/makematch', function(req,res) {
   const id2 = req.body.id2;
   const type2 = req.body.type2;
   dbapi.makeMatch(id1,type1,id2,type2);
+  res.sendStatus(200);
 });
 
 
