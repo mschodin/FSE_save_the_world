@@ -35,11 +35,24 @@ app.use("/helloWorldAPI",helloWorldAPIRouter);
 app.use("/home",homeRouter);
 
 var dbapi = require('./loginpage');
+var reqapi = require('./itemsRequest');
+var donapi = require('./itemsDonate');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const withAuth = require('./middleware');
+
+
+const getEmail = function(token) {
+  jwt.verify(token, secret, function(err,decoded) {
+      if(err) {
+          throw error;
+      } else {
+          return decoded.email;
+      }
+  })
+}
 
 
 
@@ -82,7 +95,8 @@ app.post('/newrequest', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  dbapi.storeNewRequest(location, item, amount);
+  const email = getEmail(req.body.token);
+  reqapi.addRequest(item,location,amount,email);
   res.sendStatus(200);
 });
 
@@ -90,7 +104,8 @@ app.post('/newdonation', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  dbapi.storeNewDonation(location, item, amount);
+  const email = getEmail(req.body.token);
+  donapi.addDonation(item,location,amount,email);
   res.sendStatus(200);
 });
 
