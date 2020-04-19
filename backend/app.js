@@ -46,45 +46,37 @@ const withAuth = require('./middleware');
 
 const getEmail = function(req) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
+  email = '';
   jwt.verify(token, secret, function(err,decoded) {
       if(err) {
           throw error;
       } else {
           console.log(decoded.email);
-          return decoded.email;
+          email = decoded.email;
       }
   });
+  return email;
 }
 
 app.post('/authenticate', function(req, res) {
   const email = req.body.e;
   const password = req.body.p;
 
-  var loginSuccess = dbapi.checkLoginTest(email,password);
-  if ( loginSuccess == true ) {
-      const payload = { email };
-      const token = jwt.sign(payload, secret, {
-          expiresIn: '1h'
-      });
-      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
-  } else {
-      res.sendStatus(410);
-  }
+  const payload = { email };
+  const token = jwt.sign(payload, secret, {
+      expiresIn: '1h'
+  });
+  dbapi.checkLogin(email,password,res,token);
 });
 
 app.post('/register', function(req,res) {
   const email = req.body.e;
   const password = req.body.p;
-  var registerSuccess = dbapi.registerUserTest(email,password);
-  if(registerSuccess == true){
-    const payload = { email };
-      const token = jwt.sign(payload, secret, {
-          expiresIn: '1h'
-      });
-      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
-  } else {
-    res.sendStatus(410);
-  }
+  const payload = { email };
+  const token = jwt.sign(payload, secret, {
+      expiresIn: '1h'
+  });
+  dbapi.registerUser(email,password,res,token);
 });
 
 app.get('/token', withAuth, function(req, res) {
