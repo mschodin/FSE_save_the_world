@@ -44,17 +44,17 @@ app.use(bodyParser.json());
 const withAuth = require('./middleware');
 
 
-const getEmail = function(token) {
+const getEmail = function(req) {
+  const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
   jwt.verify(token, secret, function(err,decoded) {
       if(err) {
           throw error;
       } else {
+          console.log(decoded.email);
           return decoded.email;
       }
-  })
+  });
 }
-
-
 
 app.post('/authenticate', function(req, res) {
   const email = req.body.e;
@@ -95,18 +95,26 @@ app.post('/newrequest', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  const email = getEmail(req.body.token);
-  reqapi.addRequest(item,location,amount,email);
-  res.sendStatus(200);
+  const email = getEmail(req);
+  var success = reqapi.addRequest(item,location,amount,email);
+  if(success === true) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(411);
+  }
 });
 
 app.post('/newdonation', function(req,res) {
   const location = req.body.location;
   const item = req.body.item;
   const amount = req.body.amount;
-  const email = getEmail(req.body.token);
-  donapi.addDonation(item,location,amount,email);
-  res.sendStatus(200);
+  const email = getEmail(req);
+  var success = donapi.addDonation(item,location,amount,email);
+  if(success === true) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(411);
+  }
 });
 
 app.post('/makematch', function(req,res) {
