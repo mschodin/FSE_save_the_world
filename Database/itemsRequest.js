@@ -50,3 +50,13 @@ function removeRequest(iditemRequest){
     })
     console.log("Request Removed");
 }
+
+function subtractRequest(iditemRequest, subtract){
+    let sql = 'UPDATE savetheworld.itemrequests SET amount = amount - ' + mysql.escape(subtract) + 'WHERE iditemRequest = ' + mysql.escape(iditemRequest);
+    con.query(sql, (error, results, fields) => {
+        if (error) {
+            return console.error(error.message);
+        }
+    })
+    console.log("Request subtracted");
+}
