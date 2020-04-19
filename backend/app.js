@@ -46,14 +46,16 @@ const withAuth = require('./middleware');
 
 const getEmail = function(req) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
+  email = '';
   jwt.verify(token, secret, function(err,decoded) {
       if(err) {
           throw error;
       } else {
           console.log(decoded.email);
-          return decoded.email;
+          email = decoded.email;
       }
   });
+  return email;
 }
 
 app.post('/authenticate', function(req, res) {
