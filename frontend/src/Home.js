@@ -13,6 +13,18 @@ export default class Home extends Component {
       pledgeLocation: '',
       donid: '',
       reqid: ''
+      request: [
+        { id: 1, item: 'food', amount: 2, location: 'iowa city' },
+        { id: 2, item: 'wood', amount: 12, location: 'new york' },
+        { id: 3, item: 'money', amount: 500, location: 'denver' },
+        { id: 4, item: 'water', amount: 25, location: 'des moines' }
+      ],
+      donation: [
+        { id: 1, item: 'food', amount: 2, location: 'iowa city' },
+        { id: 2, item: 'wood', amount: 12, location: 'new york' },
+        { id: 3, item: 'money', amount: 500, location: 'denver' },
+        { id: 4, item: 'water', amount: 25, location: 'des moines' }
+      ]
     }
   }
 
@@ -112,6 +124,40 @@ export default class Home extends Component {
     });
   }
 
+  renderTableHeader(){
+    let header = Object.keys(this.state.request[0])
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>
+    })
+  }
+
+  renderTableDataDonations(){
+    return this.state.donation.map((donation,index) => {
+      const { id, item, amount, location } = donation //destructuring
+      return (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{item}</td>
+            <td>{amount}</td>
+            <td>{location}</td>
+          </tr>
+      )
+    })
+  }
+  renderTableDataRequests(){
+    return this.state.request.map((request, index) => {
+      const { id, item, amount, location } = request //destructuring
+      return (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{item}</td>
+            <td>{amount}</td>
+            <td>{location}</td>
+          </tr>
+      )
+    })
+  }
+
   render() {
     return (
         <div className="Home">
@@ -156,43 +202,29 @@ export default class Home extends Component {
             </div>
             <div label="Match">
               <div class="row">
-                <div class="column-don">
+                <div className="column-don">
                   <h2>Donations</h2>
-                  <div class="row">
-                    <div class="column">
-                      <p>id</p>
-                    </div>
-                    <div class="column">
-                      <p>item</p>
-                    </div>
-                    <div class="column">
-                      <p>amount</p>
-                    </div>
-                    <div class="column">
-                      <p>location</p>
-                    </div>
-                  </div>
+                  <table id = 'donations'>
+                    <tbody>
+                      <tr>{this.renderTableHeader()}</tr>
+                      {this.renderTableDataDonations()}
+                    </tbody>
+                  </table>
+
                 </div>
-                <div class="column-middle">
+                <div className="column-middle">
                   <p> </p>
                 </div>
-                <div class="column-req">
+                <div className="column-req">
                   <h2>Requests</h2>
-                  <div class="row">
-                    <div class="column">
-                      <p>id</p>
-                    </div>
-                    <div class="column">
-                      <p>item</p>
-                    </div>
-                    <div class="column">
-                      <p>amount</p>
-                    </div>
-                    <div class="column">
-                      <p>location</p>
-                    </div>
-                  </div>
+                    <table id = 'requests'>
+                      <tbody>
+                        <tr>{this.renderTableHeader()}</tr>
+                        {this.renderTableDataRequests()}
+                      </tbody>
+                    </table>
                 </div>
+
 
               </div>
               <br></br>
