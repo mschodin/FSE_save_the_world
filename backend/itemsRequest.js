@@ -18,17 +18,30 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
-function viewRequests(itemName='*', location='*', amount='*', email='*'){
-    let sql = 'SELECT * FROM itemrequests WHERE itemName =' + mysql.escape(itemName) + "AND location =" + mysql.escape(location) +
-                "AND amount = " + mysql.escape(amount) + "AND email = " + mysql.escape(email);
-
+function viewRequests(res){
+    let sql = 'SELECT * FROM savetheworld.itemrequests';
     con.query(sql, (error, results, fields) => {
         if (error) {
             console.error(error.message);
-            return false;
+        } else {
+            var requestArr = [];
+            for(var i = 0; i < results.length; i++){
+                var obj = {
+                    id: results[i].iditemRequest,
+                    item: results[i].itemName,
+                    amount: results[i].amount,
+                    location: results[i].location
+                }
+
+                requestArr[i] = obj;
+
+                console.log(requestArr);
+            }
+            res.status(200).json({
+                requests: requestArr
+            });
         }
-    })
-    return true;
+    });
 }
 
 function addRequest(itemName, location, amount, email){

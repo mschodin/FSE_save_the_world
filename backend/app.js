@@ -101,7 +101,7 @@ app.post('/newdonation', function(req,res) {
   const item = req.body.item;
   const amount = req.body.amount;
   const email = getEmail(req);
-  var success = donapi.addDonation(item,location,amount,email);
+  var success = donapi.addDonations(item,location,amount,email);
   if(success === true) {
     res.sendStatus(200);
   } else {
@@ -143,7 +143,11 @@ app.get('/getItems', function(req,res) {
 });
 
 app.get('/getDonations', function(req,res) {
-  
+  donapi.viewDonations(res);
+});
+
+app.get('/getRequests', function(req,res) {
+  reqapi.viewRequests(res);
 });
 
 

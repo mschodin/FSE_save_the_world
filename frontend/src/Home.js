@@ -169,7 +169,10 @@ export default class Home extends Component {
       return res.json();
     })
     .then (items => {
-      var newRequests;
+      console.log(items.requests[0]);
+      console.log(items.requests[1]);
+      console.log(items.requests[2]);
+      var newRequests = [];
       for(var i = 0; i < items.requests.length; i++){
         var obj = {
           id: (items.requests[i].id),
@@ -177,12 +180,7 @@ export default class Home extends Component {
           amount: (items.requests[i].amount),
           location: (items.requests[i].location)
         }
-
-        if(i === 0){
-          newRequests = [obj];
-        } else {
-          newRequests = [newRequests, obj];
-        }
+        newRequests[i] = obj;
       }
 
       this.setState({ request: newRequests});
@@ -194,7 +192,6 @@ export default class Home extends Component {
       alert("Error submitting pledge, please try again");
     });
 
-
     fetch('http://localhost:9000/getDonations', {
       method: 'GET',
       credentials: 'include',
@@ -203,20 +200,15 @@ export default class Home extends Component {
       return res.json();
     })
     .then (items => {
-      var newDonations;
-      for(i = 0; i < items.donations.length; i++){
+      var newDonations = [];
+      for(var i = 0; i < items.donations.length; i++){
         var obj = {
           id: (items.donations[i].id),
           item: (items.donations[i].item),
           amount: (items.donations[i].amount),
           location: (items.donations[i].location)
         }
-
-        if(i === 0){
-          newDonations = [obj];
-        } else {
-          newDonations = [newDonations, obj];
-        }
+        newDonations[i] = obj;
       }
 
       this.setState({donation: newDonations});
@@ -225,7 +217,7 @@ export default class Home extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error submitting donation requests");
     });
   }
 
