@@ -120,13 +120,18 @@ app.post('/makematch', function(req,res) {
 
 app.get('/getItems', function(req,res) {
   var obj1 = {
-    name: "hi",
-    item: 5
+    id: "hi",
+    item: 5,
+    amount: 10,
+    location: 'home'
   }
   var obj2 = {
-    name: "hi",
-    item: 5
+    id: "hi",
+    item: 5,
+    amount: 10,
+    location: 'home'
   }
+  var getRequests = reqapi.viewRequests();
   res.json({
     requests: [
       obj1, obj2
@@ -135,6 +140,10 @@ app.get('/getItems', function(req,res) {
       obj1, obj2
     ]
   });
+});
+
+app.get('/getDonations', function(req,res) {
+  
 });
 
 

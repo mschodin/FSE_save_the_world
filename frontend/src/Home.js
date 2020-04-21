@@ -161,7 +161,7 @@ export default class Home extends Component {
   }
 
   updateDonationsAndRequests(){
-    fetch('http://localhost:9000/getItems', {
+    fetch('http://localhost:9000/getRequests', {
       method: 'GET',
       credentials: 'include',
     })
@@ -185,6 +185,24 @@ export default class Home extends Component {
         }
       }
 
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error submitting pledge, please try again");
+    });
+
+
+    fetch('http://localhost:9000/getDonations', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
       var newDonations;
       for(i = 0; i < items.donations.length; i++){
         var obj = {
@@ -201,7 +219,7 @@ export default class Home extends Component {
         }
       }
 
-      this.setState({ request: newRequests, donation: newDonations});
+      this.setState({donation: newDonations});
       this.renderTableDataRequests();
       this.renderTableDataDonations();
     })
