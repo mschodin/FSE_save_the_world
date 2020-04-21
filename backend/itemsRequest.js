@@ -18,6 +18,13 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
+function populateRequest(){
+    addRequest("blankets", "Antartica", 100, "polarbearscare@gmail.com");
+    addRequest("sunscreen", "North Pole", 50, "santagetstan@gmail.com");
+    addRequest("hawkeye gear", "Ames", 500000, "wegiveup@aol.com");
+    addRequest("vaccine", "The World", 1, "endcovid19@yahoo.com");
+}
+
 function viewRequests(itemName='*', location='*', amount='*', email='*'){
     let sql = 'SELECT * FROM itemrequests WHERE itemName =' + mysql.escape(itemName) + "AND location =" + mysql.escape(location) +
                 "AND amount = " + mysql.escape(amount) + "AND email = " + mysql.escape(email);
