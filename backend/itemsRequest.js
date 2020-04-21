@@ -27,8 +27,8 @@ function viewRequests(itemName='*', location='*', amount='*', email='*'){
             console.error(error.message);
             return false;
         }
+        return results;
     })
-    return true;
 }
 
 function addRequest(itemName, location, amount, email){
