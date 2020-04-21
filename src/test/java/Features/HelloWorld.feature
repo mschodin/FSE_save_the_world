@@ -19,10 +19,6 @@ Feature: Hello World
     Then I will be shown an error
 
   Scenario: Correctly Pledge an Item
-    Given I open the website and login
-    When I enter all the fields
-    And I push pledge item
-    Then
 
   Scenario: Incorrectly Pledge an Item
 

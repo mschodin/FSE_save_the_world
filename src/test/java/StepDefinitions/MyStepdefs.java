@@ -10,7 +10,7 @@ public class MyStepdefs {
     WebDriver driver;
     @Given("I launch chrome browser")
     public void iLaunchChromeBrowser() {
-        System.setProperty("webdriver.chrome.driver","/Users/sagehassel/Downloads/chromedriver-2" );
+        System.setProperty("webdriver.chrome.driver","/Users/sagehassel/Downloads/chromedriver-4" );
         driver = new ChromeDriver();
     }
 
