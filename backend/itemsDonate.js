@@ -18,6 +18,13 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
+function populateDonations(){
+    addDonations("blankets", "Brazil", 60, "wecanhelp@gmail.com");
+    addDonations("sunscreen", "Florida", 80, "springbreakcancelled@gmail.com");
+    addDonations("hawkeye gear", "Iowa City", 900000, "bestcollege@aol.com");
+    addDonations("vaccine", "CDC", 1, "wedidit@yahoo.com");
+}
+
 function viewDonations(itemName='*', location='*', amount='*', email='*'){
     let sql = 'SELECT * FROM itemdonations WHERE itemName =' + mysql.escape(itemName) + "AND location =" + mysql.escape(location) +
                 "AND amount = " + mysql.escape(amount) + "AND email = " + mysql.escape(email);
