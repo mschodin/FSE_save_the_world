@@ -27,8 +27,8 @@ function viewMatches(matchID='*', requestID='*', donationID='*', Type='*'){
             console.error(error.message);
             return false;
         }
+        return results;
     })
-    return true;
 }
 
 function addMatch(matchID, requestID, donationID, requestAmount, donationAmount, Type){
