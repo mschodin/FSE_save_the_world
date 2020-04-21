@@ -84,7 +84,6 @@ h1 {
 }
 
 .column-match{
-    text-aligh: center;
     float: left;
     width: 50%;
     color: black;
@@ -207,7 +206,9 @@ button:hover {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     border: 3px solid #ddd;
-    width: 100%;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
 
 }
 
@@ -226,4 +227,12 @@ button:hover {
     text-align: center;
     background-color: black;
     color: white;
+}
+
+#matches table {
+    width: 70%;
+}
+
+.home {
+    text-align: center;
 }

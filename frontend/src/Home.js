@@ -191,8 +191,10 @@ export default class Home extends Component {
           <h1>Save The World</h1>
           <Tabs>
             <div label="Home">
-              <h1>Thank you for helping save the world!</h1>
-                  <h2>Previous Matches</h2>
+              <div className = "home">
+              <h2>Thank you for helping save the world!</h2>
+                  <h2>Previous Matches:</h2>
+              </div>
                   <table id='matches'>
                     <tbody>
                     <tr>{this.renderTableHeaderMatches()}</tr>
