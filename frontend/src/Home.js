@@ -26,8 +26,8 @@ export default class Home extends Component {
         { id: 4, item: 'water', amount: 25, location: 'des moines' }
       ],
       match: [
-          { from: 'food', to: 'food', item: 12, amount: 1},
-          {from: 'money', to: 'money', item: 500, amount: 2}
+          { id: 1, from: 'food', to: 'food', item: 12, amount: 1},
+          {id: 2, from: 'money', to: 'money', item: 500, amount: 2}
       ]
 
 
@@ -152,6 +152,7 @@ export default class Home extends Component {
       const { id, from, to, item, amount } = match //destructuring
       return (
           <tr key={id}>
+            <td>{id}</td>
             <td>{from}</td>
             <td>{to}</td>
             <td>{item}</td>
@@ -296,34 +297,35 @@ export default class Home extends Component {
     });
 
 
-    // fetch('http://localhost:9000/getMatches', {
-    //   method: 'GET',
-    //   credentials: 'include',
-    // })
-    // .then (res => {
-    //   return res.json();
-    // })
-    // .then (items => {
-    //   var newDonations = [];
-    //   for(var i = 0; i < items.donations.length; i++){
-    //     var obj = {
-    //       id: (items.donations[i].id),
-    //       item: (items.donations[i].item),
-    //       amount: (items.donations[i].amount),
-    //       location: (items.donations[i].location)
-    //     }
-    //     newDonations[i] = obj;
-    //   }
+    fetch('http://localhost:9000/getMatches', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newMatches = [];
+      for(var i = 0; i < items.matches.length; i++){
+        var obj = {
+          id: (items.matches[i].id),
+          from: (items.matches[i].from),
+          to: (items.matches[i].to),
+          item: (items.matches[i].item),
+          amount: (items.matches[i].amount)
+        }
+        newMatches[i] = obj;
+      }
 
-    //   this.setState({donation: newDonations});
-    //   this.renderTableDataRequests();
-    //   this.renderTableDataDonations();
-    //   this.renderTableDataMatches();
-    // })
-    // .catch(err => {
-    //   console.error(err);
-    //   alert("Error submitting donation requests");
-    // });
+      this.setState({match: newMatches});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error submitting donation requests");
+    });
   }
 
   render() {

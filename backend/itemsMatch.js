@@ -30,10 +30,11 @@ function viewMatches(res){
             var matchesArr = [];
             for(var i = 0; i < results.length; i++){
                 var obj = {
-                    id: results[i].iditemDonate,
-                    item: results[i].itemName,
-                    amount: results[i].amount,
-                    location: results[i].location
+                    id: results[i].matchID,
+                    to: results[i].donationLocation,
+                    from: results[i].requestLocation,
+                    item: results[i].Item,
+                    amount: results[i].Amount
                 }
                 matchesArr[i] = obj;
             }
