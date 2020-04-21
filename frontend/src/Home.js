@@ -12,7 +12,7 @@ export default class Home extends Component {
       pledgeAmount: '',
       pledgeLocation: '',
       donid: '',
-      reqid: ''
+      reqid: '',
       request: [
         { id: 1, item: 'food', amount: 2, location: 'iowa city' },
         { id: 2, item: 'wood', amount: 12, location: 'new york' },
@@ -24,7 +24,13 @@ export default class Home extends Component {
         { id: 2, item: 'wood', amount: 12, location: 'new york' },
         { id: 3, item: 'money', amount: 500, location: 'denver' },
         { id: 4, item: 'water', amount: 25, location: 'des moines' }
-      ]
+      ],
+      match: [
+          { item1: 'food', item2: 'food', amount: 12},
+          {item1: 'money', item2: 'money', amount: 500}
+            ]
+
+
     }
   }
 
@@ -131,6 +137,27 @@ export default class Home extends Component {
     })
   }
 
+  renderTableHeaderMatches(){
+    let header = Object.keys(this.state.match[0])
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>
+    })
+  }
+
+
+  renderTableDataMatches(){
+    return this.state.match.map((match,index) => {
+      const { id, item1, item2, amount } = match //destructuring
+      return (
+          <tr key={id}>
+            <td>{item1}</td>
+            <td>{item2}</td>
+            <td>{amount}</td>
+          </tr>
+      )
+    })
+  }
+
   renderTableDataDonations(){
     return this.state.donation.map((donation,index) => {
       const { id, item, amount, location } = donation //destructuring
@@ -163,7 +190,18 @@ export default class Home extends Component {
         <div className="Home">
           <h1>Save The World</h1>
           <Tabs>
-            <div label="Home">Thank you for helping save the world!</div>
+            <div label="Home">
+              <div className = "home">
+              <h2>Thank you for helping save the world!</h2>
+                  <h2>Previous Matches:</h2>
+              </div>
+                  <table id='matches'>
+                    <tbody>
+                    <tr>{this.renderTableHeaderMatches()}</tr>
+                    {this.renderTableDataMatches()}
+                    </tbody>
+                  </table>
+            </div>
             <div label="Request">
               <form onSubmit={this.handleRequest}>
 
