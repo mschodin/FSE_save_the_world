@@ -18,9 +18,14 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
+function populateRequest(){
+    addRequest("blankets", "Antartica", 100, "polarbearscare@gmail.com");
+    addRequest("sunscreen", "North Pole", 50, "santagetstan@gmail.com");
+    addRequest("hawkeye gear", "Ames", 500000, "wegiveup@aol.com");
+    addRequest("vaccine", "The World", 1, "endcovid19@yahoo.com");
+}
 function viewRequests(res){
-    let sql = 'SELECT * FROM savetheworld.itemrequests';
-    con.query(sql, (error, results, fields) => {
+    let sql = 'SELECT * FROM savetheworld.itemrequests';    con.query(sql, (error, results, fields) => {
         if (error) {
             console.error(error.message);
         } else {

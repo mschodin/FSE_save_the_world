@@ -18,7 +18,12 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
-function viewDonations(res){
+function populateDonations(){
+    addDonations("blankets", "Brazil", 60, "wecanhelp@gmail.com");
+    addDonations("sunscreen", "Florida", 80, "springbreakcancelled@gmail.com");
+    addDonations("hawkeye gear", "Iowa City", 900000, "bestcollege@aol.com");
+    addDonations("vaccine", "CDC", 1, "wedidit@yahoo.com");
+}function viewDonations(res){
     let sql = 'SELECT * FROM savetheworld.itemdonations';
     con.query(sql, (error, results, fields) => {
         if (error) {
