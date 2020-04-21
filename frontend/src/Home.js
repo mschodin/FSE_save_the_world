@@ -118,7 +118,7 @@ export default class Home extends Component {
     })
     .then (res => {
       if(res.status === 200) {
-        alert("Pledge submitted, Thank you!");
+        alert("Match submitted, Thank you!");
       } else {
         const error = new Error(res.error);
         throw error;
@@ -126,7 +126,7 @@ export default class Home extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error submitting match, please try again");
     });
   }
 

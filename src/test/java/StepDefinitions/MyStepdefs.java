@@ -6,7 +6,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -129,7 +128,7 @@ public class MyStepdefs {
         wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
         String alertText = alert.getText();
-        Assert.assertEquals("Request submitted",alertText);
+        Assert.assertEquals("Request submitted!",alertText);
         driver.quit();
 
     }
@@ -151,5 +150,112 @@ public class MyStepdefs {
         driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys("");
         driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys("");
         driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[3]")).sendKeys("");
+    }
+
+    @When("I click on the Donate tab")
+    public void iClickOnTheDonateTab() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[3]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[3]")).click();
+    }
+
+    @And("I am brought to the Donate page")
+    public void iAmBroughtToTheDonatePage() {
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(.,'Submit Donation')]")));
+        boolean status = driver.findElement(By.xpath("//button[contains(.,'Submit Donation')]")).isDisplayed();
+        Assert.assertEquals(true,status);
+    }
+
+    @When("I click submit donation")
+    public void iClickSubmitDonation() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")).click();
+    }
+
+    @Then("The donation will successfully add")
+    public void theDonationWillSuccessfullyAdd() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals("Pledge submitted, Thank you!",alertText);
+        driver.quit();
+
+    }
+
+    @Then("The donation will not add")
+    public void theDonationWillNotAdd() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals("Error submitting pledge, please try again",alertText);
+        driver.quit();
+    }
+
+    @When("I click on the Match tab")
+    public void iClickOnTheMatchTab() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[4]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[4]")).click();
+    }
+
+    @And("I am brought to the Match page")
+    public void iAmBroughtToTheMatchPage() {
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(.,'Match Donation and Request')]")));
+        boolean status = driver.findElement(By.xpath("//button[contains(.,'Match Donation and Request')]")).isDisplayed();
+        Assert.assertEquals(true,status);
+    }
+
+    @And("I see the match table")
+    public void iSeeTheMatchTable() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"donations\"]")));
+        boolean status = driver.findElement(By.xpath("//*[@id=\"donations\"]")).isDisplayed();
+        Assert.assertEquals(true,status);
+        boolean status2 = driver.findElement(By.xpath("//*[@id=\"requests\"]")).isDisplayed();
+        Assert.assertEquals(true,status2);
+    }
+
+    @When("I enter a donation id and request id")
+    public void iEnterADonationIdAndRequestId() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")));
+        // get id of first donation
+        // get id of first request
+        //match first donation and first request
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys("");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys("");
+    }
+
+    @And("I click submit match")
+    public void iClickSubmitMatch() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")).click();
+
+    }
+
+    @Then("The match will successfully be added")
+    public void theMatchWillSuccessfullyBeAdded() {
+        //click on home tab
+        //ensure those two items are matched
+    }
+
+    @When("I enter a donation id and request id incorrectly")
+    public void iEnterADonationIdAndRequestIdIncorrectly() {
+    }
+
+    @Then("The match will not be added")
+    public void theMatchWillNotBeAdded() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals("Error submitting match, please try again",alertText);
+        driver.quit();
     }
 }
