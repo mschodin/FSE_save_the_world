@@ -3,6 +3,8 @@ const CryptoJS = require("crypto-js");
 var express = require("express");
 var router = express.Router();
 const mysql = require('mysql');
+var donapi = require('./itemsDonate');
+var reqapi = require('./itemsRequest');
 const con = mysql.createConnection({
     host: 'localhost',
     port: '3308',
@@ -42,19 +44,68 @@ function viewMatches(res){
     })
 }
 
-function addMatch(matchID, requestID, donationID, requestAmount, donationAmount, Type){
-    let sql ='INSERT INTO savetheworld.matches(matchID,requestID,donationID,requestAmount,donationAmount,Type) VALUES('+
-            mysql.escape(matchID)+','+mysql.escape(requestID)+','+mysql.escape(donationID)+','+mysql.escape(requestAmount)+','+
-            mysql.escape(donationAmount)+','+mysql.escape(Type)+')';
+function addMatch(donationID, requestID){
 
-    con.query(sql, (error, results, fields) => {
-        if (error) {
+    var to = '';
+    var from = '';
+    var item = '';
+    var donamount = 0;
+    var reqamount = 0;
+    var amount = 0;
+
+    let donsql = "SELECT * FROM savetheworld.itemdonations WHERE iditemDonate=" + donationID;
+    let reqsql = "SELECT * FROM savetheworld.itemrequest WHERE iditemRequest=" + requestID;
+
+    con.query(donsql, (error, results, fields) => {
+        if(error){
             console.error(error.message);
-            return false;
+        } else {
+            from = results.location;
+            item = results.itemName;
+            donamount = results.amount;
         }
-    })
-    console.log("Match Registered");
-    return true;
+
+        con.query(reqsql, (er, res, fie) => {
+            if(er){
+                console.error(er.message);
+            } else {
+                to = res.location;
+                reqamount = res.amount;
+            }
+
+            if (donamount > reqamount) {
+                amount = reqamount;
+            }
+            else {
+                amount = donamount;
+            }
+
+            let matchsql ='INSERT INTO savetheworld.matches(from,to,item,amount) VALUES('+
+                mysql.escape(from)+','+mysql.escape(to)+','+mysql.escape(item)+','+
+                mysql.escape(amount)+')';
+
+            con.query(matchsql, (e, r, f) => {
+                if(e) {
+                    console.log("WE GOT HERE");
+                    console.error(e.message);
+                } else {
+                    console.log("IT WORKED!!!!");
+                    if (donamount === reqamount){
+                        donapi.removeDonations(donationID);
+                        reqapi.removeRequest(requestID);
+                    }
+                    else if (donamount > reqamount){
+                        reqapi.removeRequest(requestID);
+                        donapi.subtractDonations(donationID, reqamount);
+                    }
+                    else {
+                        donapi.removeDonations(donationID);
+                        reqapi.subtractRequest(requestID, donamount);
+                    }
+                }
+            });
+        });
+    });
 }
 
 function removeMatch(matchID){

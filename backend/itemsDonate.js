@@ -92,7 +92,6 @@ function checkDonations(){
         if (error) {
             console.error(error.message);
         } else {
-            console.log(results.length);
             if(results.length === 0){
                 console.log("Donations are empty, populating");
                 populateDonations();

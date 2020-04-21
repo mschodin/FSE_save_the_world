@@ -118,8 +118,8 @@ app.post('/makematch', function(req,res) {
   const type1 = req.body.type1;
   const id2 = req.body.id2;
   const type2 = req.body.type2;
-  dbapi.makeMatch(id1,type1,id2,type2);
-  res.sendStatus(200);
+  matchapi.addMatch(id1,id2);
+  //res.sendStatus(200);
 });
 
 app.get('/getDonations', function(req,res) {
