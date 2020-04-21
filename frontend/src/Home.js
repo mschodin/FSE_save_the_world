@@ -127,7 +127,7 @@ export default class Home extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error making match");
       this.updateDonationsAndRequests();
     });
   }

@@ -60,51 +60,51 @@ function addMatch(donationID, requestID){
         if(error){
             console.error(error.message);
         } else {
-            from = results.location;
-            item = results.itemName;
-            donamount = results.amount;
-        }
+            from = results[0].location;
+            item = results[0].itemName;
+            donamount = results[0].amount;
 
-        con.query(reqsql, (er, res, fie) => {
-            if(er){
-                console.error(er.message);
-            } else {
-                to = res.location;
-                reqamount = res.amount;
-            }
-
-            if (donamount > reqamount) {
-                amount = reqamount;
-            }
-            else {
-                amount = donamount;
-            }
-
-            let matchsql ='INSERT INTO savetheworld.matches(from,to,item,amount) VALUES('+
-                mysql.escape(from)+','+mysql.escape(to)+','+mysql.escape(item)+','+
-                mysql.escape(amount)+')';
-
-            con.query(matchsql, (e, r, f) => {
-                if(e) {
-                    console.log("WE GOT HERE");
-                    console.error(e.message);
+            con.query(reqsql, (er, res, fie) => {
+                if(er){
+                    console.error(er.message);
                 } else {
-                    console.log("IT WORKED!!!!");
-                    if (donamount === reqamount){
-                        donapi.removeDonations(donationID);
-                        reqapi.removeRequest(requestID);
-                    }
-                    else if (donamount > reqamount){
-                        reqapi.removeRequest(requestID);
-                        donapi.subtractDonations(donationID, reqamount);
+                    to = res[0].location;
+                    reqamount = res[0].amount;
+    
+                    if (donamount > reqamount) {
+                        amount = reqamount;
                     }
                     else {
-                        donapi.removeDonations(donationID);
-                        reqapi.subtractRequest(requestID, donamount);
+                        amount = donamount;
                     }
+        
+                    let matchsql ='INSERT INTO savetheworld.matches(donationLocation,requestLocation,Amount,Item) VALUES('+
+                        mysql.escape(from)+','+mysql.escape(to)+','+mysql.escape(amount)+','+
+                        mysql.escape(item)+')';
+        
+                    con.query(matchsql, (e, r, f) => {
+                        if(e) {
+                            console.log("WE GOT HERE");
+                            console.error(e.message);
+                        } else {
+                            console.log("IT WORKED!!!!");
+                            if (donamount === reqamount){
+                                donapi.removeDonations(donationID);
+                                reqapi.removeRequest(requestID);
+                            }
+                            else if (donamount > reqamount){
+                                reqapi.removeRequest(requestID);
+                                donapi.subtractDonations(donationID, reqamount);
+                            }
+                            else {
+                                donapi.removeDonations(donationID);
+                                reqapi.subtractRequest(requestID, donamount);
+                            }
+                        }
+                    });
                 }
             });
-        });
+        }
     });
 }
 
