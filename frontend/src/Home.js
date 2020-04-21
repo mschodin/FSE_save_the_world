@@ -29,11 +29,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:9000/home', {
-      credentials: 'include'
-    })
-        .then(res => res.text())
-        .then(res => this.setState({message: res}));
+    this.updateDonationsAndRequests();
   }
 
   handleRequest = (event) => {
@@ -54,6 +50,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Request submitted!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -62,6 +59,7 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting request, please try again");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -83,6 +81,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -91,6 +90,7 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting pledge, please try again");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -113,6 +113,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -121,6 +122,7 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting pledge, please try again");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -156,6 +158,57 @@ export default class Home extends Component {
           </tr>
       )
     })
+  }
+
+  updateDonationsAndRequests(){
+    fetch('http://localhost:9000/getItems', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newRequests;
+      for(var i = 0; i < items.requests.length; i++){
+        var obj = {
+          id: (items.requests[i].id),
+          item: (items.requests[i].item),
+          amount: (items.requests[i].amount),
+          location: (items.requests[i].location)
+        }
+
+        if(i === 0){
+          newRequests = [obj];
+        } else {
+          newRequests = [newRequests, obj];
+        }
+      }
+
+      var newDonations;
+      for(i = 0; i < items.donations.length; i++){
+        var obj = {
+          id: (items.donations[i].id),
+          item: (items.donations[i].item),
+          amount: (items.donations[i].amount),
+          location: (items.donations[i].location)
+        }
+
+        if(i === 0){
+          newDonations = [obj];
+        } else {
+          newDonations = [newDonations, obj];
+        }
+      }
+
+      this.setState({ request: newRequests, donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error submitting pledge, please try again");
+    });
   }
 
   render() {
@@ -201,7 +254,7 @@ export default class Home extends Component {
               </form>
             </div>
             <div label="Match">
-              <div class="row">
+              <div className="row">
                 <div className="column-don">
                   <h2>Donations</h2>
                   <table id = 'donations'>

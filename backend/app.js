@@ -118,7 +118,24 @@ app.post('/makematch', function(req,res) {
   res.sendStatus(200);
 });
 
-
+app.get('/getItems', function(req,res) {
+  var obj1 = {
+    name: "hi",
+    item: 5
+  }
+  var obj2 = {
+    name: "hi",
+    item: 5
+  }
+  res.json({
+    requests: [
+      obj1, obj2
+    ],
+    donations: [
+      obj1, obj2
+    ]
+  });
+});
 
 
 
