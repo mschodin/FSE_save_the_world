@@ -27,8 +27,8 @@ function viewDonations(itemName='*', location='*', amount='*', email='*'){
             console.error(error.message);
             return false;
         }
+        return results;
     })
-    return true;
 }
 
 function addDonations(itemName, location, amount, email){
