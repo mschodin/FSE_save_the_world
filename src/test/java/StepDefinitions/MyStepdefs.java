@@ -49,8 +49,8 @@ public class MyStepdefs {
     public void iEnterMyUsernameAndPassword() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/form[1]/div/input[1]")));
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/form[1]/div/input[1]")).sendKeys("correctUsername");
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/form[1]/div/input[2]")).sendKeys("correctPassword");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/form[1]/div/input[1]")).sendKeys("regular");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/form[1]/div/input[2]")).sendKeys("password");
     }
 
     @And("I push login")
@@ -81,5 +81,75 @@ public class MyStepdefs {
         String alertText = alert.getText();
         Assert.assertEquals("Error logging in please try again",alertText);
         driver.quit();
+    }
+
+    @Given("I open the website and login")
+    public void iOpenTheWebsiteAndLogin() {
+        iLaunchChromeBrowser();
+        iOpenTheLocalHost();
+        iEnterMyUsernameAndPassword();
+    }
+
+    @When("I click on the Request tab")
+    public void iClickOnTheRequestTab() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[2]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[2]")).click();
+    }
+
+    @And("I am brought to the Request page")
+    public void iAmBroughtToTheRequestPage() {
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(.,'Submit Request')]")));
+        boolean status = driver.findElement(By.xpath("//button[contains(.,'Submit Request')]")).isDisplayed();
+        Assert.assertEquals(true,status);
+    }
+
+    @And("I enter an item, amount and location")
+    public void iEnterAnItemAmountAndLocation() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys("concrete");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys("100 lbs");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[3]")).sendKeys("Minnesota");
+
+
+    }
+
+    @When("I click submit request")
+    public void iClickSubmitRequest() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/button")).click();
+    }
+
+    @Then("The request will successfully add")
+    public void theRequestWillSuccessfullyAdd() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals("Request submitted",alertText);
+        driver.quit();
+
+    }
+
+    @Then("The request will not add")
+    public void theRequestWillNotAdd() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals("Error submitting request, please try again",alertText);
+        driver.quit();
+    }
+
+    @And("I enter an incorrect item, amount and location")
+    public void iEnterAnIncorrectItemAmountAndLocation() {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys("");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys("");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[3]")).sendKeys("");
     }
 }
