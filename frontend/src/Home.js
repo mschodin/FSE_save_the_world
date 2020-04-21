@@ -26,9 +26,9 @@ export default class Home extends Component {
         { id: 4, item: 'water', amount: 25, location: 'des moines' }
       ],
       match: [
-          { item1: 'food', item2: 'food', amount: 12},
-          {item1: 'money', item2: 'money', amount: 500}
-            ]
+          { from: 'food', to: 'food', item: 12, amount: 1},
+          {from: 'money', to: 'money', item: 500, amount: 2}
+      ]
 
 
     }
@@ -149,11 +149,12 @@ export default class Home extends Component {
 
   renderTableDataMatches(){
     return this.state.match.map((match,index) => {
-      const { id, item1, item2, amount } = match //destructuring
+      const { id, from, to, item, amount } = match //destructuring
       return (
           <tr key={id}>
-            <td>{item1}</td>
-            <td>{item2}</td>
+            <td>{from}</td>
+            <td>{to}</td>
+            <td>{item}</td>
             <td>{amount}</td>
           </tr>
       )
@@ -196,9 +197,6 @@ export default class Home extends Component {
       return res.json();
     })
     .then (items => {
-      console.log(items.requests[0]);
-      console.log(items.requests[1]);
-      console.log(items.requests[2]);
       var newRequests = [];
       for(var i = 0; i < items.requests.length; i++){
         var obj = {
@@ -210,14 +208,39 @@ export default class Home extends Component {
         newRequests[i] = obj;
       }
 
+      if(items.length === 0){
+        newRequests[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
       this.setState({ request: newRequests});
       this.renderTableDataRequests();
       this.renderTableDataDonations();
+      this.renderTableDataMatches();
     })
     .catch(err => {
+      var newRequests = [];
+      newRequests[0] = { 
+        id: 0,
+        item: 0,
+        amount: 0,
+        location: 0
+      }
+      
+
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error submitting requests query");
     });
+
 
     fetch('http://localhost:9000/getDonations', {
       method: 'GET',
@@ -238,14 +261,69 @@ export default class Home extends Component {
         newDonations[i] = obj;
       }
 
+      if(items.length === 0){
+        newDonations[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
       this.setState({donation: newDonations});
       this.renderTableDataRequests();
       this.renderTableDataDonations();
+      this.renderTableDataMatches();
     })
     .catch(err => {
+
+      var newDonations = [];
+      newDonations[0] = { 
+        id: null,
+        item: null,
+        amount: null,
+        location: null
+      }
+      
+
+      this.setState({ donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
       console.error(err);
       alert("Error submitting donation requests");
     });
+
+
+    // fetch('http://localhost:9000/getMatches', {
+    //   method: 'GET',
+    //   credentials: 'include',
+    // })
+    // .then (res => {
+    //   return res.json();
+    // })
+    // .then (items => {
+    //   var newDonations = [];
+    //   for(var i = 0; i < items.donations.length; i++){
+    //     var obj = {
+    //       id: (items.donations[i].id),
+    //       item: (items.donations[i].item),
+    //       amount: (items.donations[i].amount),
+    //       location: (items.donations[i].location)
+    //     }
+    //     newDonations[i] = obj;
+    //   }
+
+    //   this.setState({donation: newDonations});
+    //   this.renderTableDataRequests();
+    //   this.renderTableDataDonations();
+    //   this.renderTableDataMatches();
+    // })
+    // .catch(err => {
+    //   console.error(err);
+    //   alert("Error submitting donation requests");
+    // });
   }
 
   render() {

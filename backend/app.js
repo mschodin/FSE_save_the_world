@@ -37,12 +37,16 @@ app.use("/home",homeRouter);
 var dbapi = require('./loginpage');
 var reqapi = require('./itemsRequest');
 var donapi = require('./itemsDonate');
+var matchapi = require('./itemsMatch');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const withAuth = require('./middleware');
 
+reqapi.checkRequests();
+donapi.checkDonations();
+matchapi.checkMatches();
 
 const getEmail = function(req) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
@@ -116,30 +120,6 @@ app.post('/makematch', function(req,res) {
   const type2 = req.body.type2;
   dbapi.makeMatch(id1,type1,id2,type2);
   res.sendStatus(200);
-});
-
-app.get('/getItems', function(req,res) {
-  var obj1 = {
-    id: "hi",
-    item: 5,
-    amount: 10,
-    location: 'home'
-  }
-  var obj2 = {
-    id: "hi",
-    item: 5,
-    amount: 10,
-    location: 'home'
-  }
-  var getRequests = reqapi.viewRequests();
-  res.json({
-    requests: [
-      obj1, obj2
-    ],
-    donations: [
-      obj1, obj2
-    ]
-  });
 });
 
 app.get('/getDonations', function(req,res) {

@@ -18,16 +18,27 @@ con.query(sql, (error, results, fields) => {
     }
 })
 
-function viewMatches(matchID='*', requestID='*', donationID='*', Type='*'){
-    let sql = 'SELECT * FROM matches WHERE matchID =' + mysql.escape(matchID) + "AND requestID =" + mysql.escape(requestID) +
-                "AND donationID = " + mysql.escape(donationID) + "AND Type = " + mysql.escape(Type);
+function viewMatches(res){
+    let sql = 'SELECT * FROM savetheworld.matches';
 
     con.query(sql, (error, results, fields) => {
         if (error) {
             console.error(error.message);
-            return false;
+        } else {
+            var matchesArr = [];
+            for(var i = 0; i < results.length; i++){
+                var obj = {
+                    id: results[i].iditemDonate,
+                    item: results[i].itemName,
+                    amount: results[i].amount,
+                    location: results[i].location
+                }
+                matchesArr[i] = obj;
+            }
+            res.status(200).json({
+                matches: matchesArr
+            });
         }
-        return results;
     })
 }
 
@@ -57,3 +68,20 @@ function removeMatch(matchID){
     console.log("Match Removed");
     return true;
 }
+
+function checkMatches(){
+    console.log("Checking Matches");
+
+    let sql = 'SELECT * FROM savetheworld.matches';
+    con.query(sql, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+        } else {
+            if(results.length === 0){
+                // RESULTS ARE EMPTY
+            }
+        }
+    });
+}
+
+module.exports = {removeMatch, addMatch, viewMatches, checkMatches}

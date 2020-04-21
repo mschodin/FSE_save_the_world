@@ -23,7 +23,9 @@ function populateDonations(){
     addDonations("sunscreen", "Florida", 80, "springbreakcancelled@gmail.com");
     addDonations("hawkeye gear", "Iowa City", 900000, "bestcollege@aol.com");
     addDonations("vaccine", "CDC", 1, "wedidit@yahoo.com");
-}function viewDonations(res){
+}
+
+function viewDonations(res){
     let sql = 'SELECT * FROM savetheworld.itemdonations';
     con.query(sql, (error, results, fields) => {
         if (error) {
@@ -81,4 +83,22 @@ function subtractDonations(iditemDonate, subtract){
     })
     console.log("Donation subtracted");
 }
-module.exports = {addDonations, removeDonations, viewDonations, subtractDonations}
+
+function checkDonations(){
+    console.log("Checking donations");
+
+    let sql = 'SELECT * FROM savetheworld.itemdonations';
+    con.query(sql, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+        } else {
+            console.log(results.length);
+            if(results.length === 0){
+                console.log("Donations are empty, populating");
+                populateDonations();
+            }
+        }
+    });
+}
+
+module.exports = {addDonations, removeDonations, viewDonations, subtractDonations, checkDonations}
