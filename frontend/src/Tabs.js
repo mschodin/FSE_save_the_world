@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import Tab from "./Tab";
+import Home from "./Home";
 
 class Tabs extends Component {
     static propTypes = {
@@ -17,7 +18,31 @@ class Tabs extends Component {
     }
 
     onClickTabItem = tab => {
-        this.setState({ activeTab: tab });
+        if(tab === 'Match'){
+            fetch('http://localhost:9000/getUserPerms', {
+                method: 'GET',
+                credentials: 'include',
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(perms => {
+                if(perms.userperms === 'admin'){
+                    this.setState({ activeTab: tab });
+                }
+                else {
+                    alert("You are not an admin! Permission denied!");
+                }
+            })
+        } else if (tab === 'Log Out') {
+            Home.logout();
+            fetch('http://localhost:9000/logout', {
+                method: 'GET',
+                credentials: 'include',
+            });
+        } else {
+            this.setState({ activeTab: tab });
+        }
     };
 
     render() {

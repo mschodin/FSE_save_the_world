@@ -384,7 +384,7 @@ export default class Home extends Component {
             <div label="Match">
               <div className="row">
                 <div className="column-don">
-                  <h2>Donations</h2>
+                  <h2 className="outline">Donations</h2>
                   <table id = 'donations'>
                     <tbody>
                       <tr>{this.renderTableHeader()}</tr>
@@ -397,7 +397,7 @@ export default class Home extends Component {
                   <p> </p>
                 </div>
                 <div className="column-req">
-                  <h2>Requests</h2>
+                  <h2 className="outline">Requests</h2>
                     <table id = 'requests'>
                       <tbody>
                         <tr>{this.renderTableHeader()}</tr>
@@ -424,6 +424,7 @@ export default class Home extends Component {
 
               </form>
             </div>
+            <div label="Log Out"></div>
           </Tabs>
         </div>
     );

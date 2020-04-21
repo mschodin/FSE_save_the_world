@@ -55,7 +55,6 @@ const getEmail = function(req) {
       if(err) {
           throw error;
       } else {
-          console.log(decoded.email);
           email = decoded.email;
       }
   });
@@ -133,7 +132,15 @@ app.get('/getMatches', function(req,res) {
   matchapi.viewMatches(res);
 });
 
+app.get('/getUserPerms', function(req,res) {
+  var email = getEmail(req);
+  dbapi.checkAdmin(email,res);
+});
 
+app.get('/logout', function(req,res) {
+  res.clearCookie('token');
+  res.send('clearing cookie');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

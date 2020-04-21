@@ -104,6 +104,20 @@ module.exports = {
                 res.sendStatus(414);
             }
         });
+    },
+
+    checkAdmin: function(username,res){
+        let sql = "SELECT * FROM savetheworld.users WHERE Username='" + username + "'";
+        con.query(sql, (error, results, fields) => {
+            if(error){
+                console.error(error.message);
+            } else {
+                var per = results[0].Priveleges;
+                res.status(200).json({
+                    userperms: per
+                });
+            }
+        });
     }
 };
 
