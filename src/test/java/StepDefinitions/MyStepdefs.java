@@ -220,15 +220,18 @@ public class MyStepdefs {
         Assert.assertEquals(true,status2);
     }
 
+    String item1 = "", item2 = "";
     @When("I enter a donation id and request id")
     public void iEnterADonationIdAndRequestId() {
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")));
         // get id of first donation
+        item1 = driver.findElement(By.xpath("//*[@id=\"donations\"]/tbody/tr[2]/td[2]")).getText();
         // get id of first request
+        item2 = driver.findElement(By.xpath("//*[@id=\"requests\"]/tbody/tr[2]/td[2]")).getText();
         //match first donation and first request
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys("");
-        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys("");
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[1]")).sendKeys(item1);
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div/form/div/input[2]")).sendKeys(item2);
     }
 
     @And("I click submit match")
@@ -242,7 +245,15 @@ public class MyStepdefs {
     @Then("The match will successfully be added")
     public void theMatchWillSuccessfullyBeAdded() {
         //click on home tab
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[1]")));
+        driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/ol/li[1]")).click();
         //ensure those two items are matched
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("")));
+       String test1 = driver.findElement(By.xpath("//*[@id=\"matches\"]/tbody/tr[last()]/td[1]")).getText();
+       String test2 = driver.findElement(By.xpath("//*[@id=\"matches\"]/tbody/tr[last()]/td[2]")).getText();
+       Assert.assertEquals(item1, test1);
+       Assert.assertEquals(item2, test2);
     }
 
     @When("I enter a donation id and request id incorrectly")
