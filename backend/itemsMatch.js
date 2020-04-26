@@ -85,10 +85,8 @@ function addMatch(donationID, requestID){
         
                     con.query(matchsql, (e, r, f) => {
                         if(e) {
-                            console.log("WE GOT HERE");
                             console.error(e.message);
                         } else {
-                            console.log("IT WORKED!!!!");
                             if (donamount === reqamount){
                                 donapi.removeDonations(donationID);
                                 reqapi.removeRequest(requestID);
