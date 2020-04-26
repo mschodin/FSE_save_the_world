@@ -75,7 +75,7 @@ function removeDonations(iditemDonate){
 }
 
 function subtractDonations(iditemDonate, subtract){
-    let sql = 'UPDATE savetheworld.itemdonations SET amount = amount - ' + mysql.escape(subtract) + ' WHERE iditemDonate = ' + mysql.escapeId(iditemDonate);
+    let sql = 'UPDATE savetheworld.itemdonations SET amount = amount - ' + mysql.escape(subtract) + ' WHERE iditemDonate = ' + mysql.escape(iditemDonate);
     con.query(sql, (error, results, fields) => {
         if (error) {
             return console.error(error.message);
