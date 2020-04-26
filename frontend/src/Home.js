@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tabs from "./Tabs";
 import "./Home.css";
+
 export default class Home extends Component {
   constructor() {
     super();
@@ -26,20 +27,16 @@ export default class Home extends Component {
         { id: 4, item: 'water', amount: 25, location: 'des moines' }
       ],
       match: [
-          { item1: 'food', item2: 'food', amount: 12},
-          {item1: 'money', item2: 'money', amount: 500}
-            ]
+          { id: 1, from: 'food', to: 'food', item: 12, amount: 1},
+          {id: 2, from: 'money', to: 'money', item: 500, amount: 2}
+      ]
 
 
     }
   }
 
   componentDidMount() {
-    fetch('http://localhost:9000/home', {
-      credentials: 'include'
-    })
-        .then(res => res.text())
-        .then(res => this.setState({message: res}));
+    this.updateDonationsAndRequests();
   }
 
   handleRequest = (event) => {
@@ -60,6 +57,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Request submitted!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -68,6 +66,7 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting request, please try again");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -89,6 +88,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -97,6 +97,7 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting pledge, please try again");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -119,6 +120,7 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
+        this.updateDonationsAndRequests();
       } else {
         const error = new Error(res.error);
         throw error;
@@ -126,7 +128,8 @@ export default class Home extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error making match");
+      this.updateDonationsAndRequests();
     });
   }
 
@@ -147,11 +150,13 @@ export default class Home extends Component {
 
   renderTableDataMatches(){
     return this.state.match.map((match,index) => {
-      const { id, item1, item2, amount } = match //destructuring
+      const { id, from, to, item, amount } = match //destructuring
       return (
           <tr key={id}>
-            <td>{item1}</td>
-            <td>{item2}</td>
+            <td>{id}</td>
+            <td>{from}</td>
+            <td>{to}</td>
+            <td>{item}</td>
             <td>{amount}</td>
           </tr>
       )
@@ -183,6 +188,145 @@ export default class Home extends Component {
           </tr>
       )
     })
+  }
+
+  updateDonationsAndRequests(){
+    fetch('http://localhost:9000/getRequests', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newRequests = [];
+      for(var i = 0; i < items.requests.length; i++){
+        var obj = {
+          id: (items.requests[i].id),
+          item: (items.requests[i].item),
+          amount: (items.requests[i].amount),
+          location: (items.requests[i].location)
+        }
+        newRequests[i] = obj;
+      }
+
+      if(items.length === 0){
+        newRequests[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+      var newRequests = [];
+      newRequests[0] = { 
+        id: 0,
+        item: 0,
+        amount: 0,
+        location: 0
+      }
+      
+
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
+      console.error(err);
+      alert("Error submitting requests query");
+    });
+
+
+    fetch('http://localhost:9000/getDonations', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newDonations = [];
+      for(var i = 0; i < items.donations.length; i++){
+        var obj = {
+          id: (items.donations[i].id),
+          item: (items.donations[i].item),
+          amount: (items.donations[i].amount),
+          location: (items.donations[i].location)
+        }
+        newDonations[i] = obj;
+      }
+
+      if(items.length === 0){
+        newDonations[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
+      this.setState({donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+
+      var newDonations = [];
+      newDonations[0] = { 
+        id: null,
+        item: null,
+        amount: null,
+        location: null
+      }
+      
+
+      this.setState({ donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
+      console.error(err);
+      alert("Error submitting donation requests");
+    });
+
+
+    fetch('http://localhost:9000/getMatches', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newMatches = [];
+      for(var i = 0; i < items.matches.length; i++){
+        var obj = {
+          id: (items.matches[i].id),
+          from: (items.matches[i].from),
+          to: (items.matches[i].to),
+          item: (items.matches[i].item),
+          amount: (items.matches[i].amount)
+        }
+        newMatches[i] = obj;
+      }
+
+      this.setState({match: newMatches});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error submitting donation requests");
+    });
   }
 
   render() {
@@ -239,9 +383,9 @@ export default class Home extends Component {
               </form>
             </div>
             <div label="Match">
-              <div class="row">
+              <div className="row">
                 <div className="column-don">
-                  <h2>Donations</h2>
+                  <h2 className="outline">Donations</h2>
                   <table id = 'donations'>
                     <tbody>
                       <tr>{this.renderTableHeader()}</tr>
@@ -254,7 +398,7 @@ export default class Home extends Component {
                   <p> </p>
                 </div>
                 <div className="column-req">
-                  <h2>Requests</h2>
+                  <h2 className="outline">Requests</h2>
                     <table id = 'requests'>
                       <tbody>
                         <tr>{this.renderTableHeader()}</tr>
@@ -281,6 +425,7 @@ export default class Home extends Component {
 
               </form>
             </div>
+            <div label="Log Out"></div>
           </Tabs>
         </div>
     );

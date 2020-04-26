@@ -25,17 +25,27 @@ function populateDonations(){
     addDonations("vaccine", "CDC", 1, "wedidit@yahoo.com");
 }
 
-function viewDonations(itemName='*', location='*', amount='*', email='*'){
-    let sql = 'SELECT * FROM itemdonations WHERE itemName =' + mysql.escape(itemName) + "AND location =" + mysql.escape(location) +
-                "AND amount = " + mysql.escape(amount) + "AND email = " + mysql.escape(email);
-
+function viewDonations(res){
+    let sql = 'SELECT * FROM savetheworld.itemdonations';
     con.query(sql, (error, results, fields) => {
         if (error) {
             console.error(error.message);
-            return false;
+        } else {
+            var donationArr = [];
+            for(var i = 0; i < results.length; i++){
+                var obj = {
+                    id: results[i].iditemDonate,
+                    item: results[i].itemName,
+                    amount: results[i].amount,
+                    location: results[i].location
+                }
+                donationArr[i] = obj;
+            }
+            res.status(200).json({
+                donations: donationArr
+            });
         }
-        return results;
-    })
+    });
 }
 
 function addDonations(itemName, location, amount, email){
@@ -73,3 +83,21 @@ function subtractDonations(iditemDonate, subtract){
     })
     console.log("Donation subtracted");
 }
+
+function checkDonations(){
+    console.log("Checking donations");
+
+    let sql = 'SELECT * FROM savetheworld.itemdonations';
+    con.query(sql, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+        } else {
+            if(results.length === 0){
+                console.log("Donations are empty, populating");
+                populateDonations();
+            }
+        }
+    });
+}
+
+module.exports = {addDonations, removeDonations, viewDonations, subtractDonations, checkDonations}

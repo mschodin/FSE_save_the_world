@@ -37,12 +37,16 @@ app.use("/home",homeRouter);
 var dbapi = require('./loginpage');
 var reqapi = require('./itemsRequest');
 var donapi = require('./itemsDonate');
+var matchapi = require('./itemsMatch');
 const jwt = require('jsonwebtoken');
 const secret = 'secret';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const withAuth = require('./middleware');
 
+reqapi.checkRequests();
+donapi.checkDonations();
+matchapi.checkMatches();
 
 const getEmail = function(req) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
@@ -51,7 +55,6 @@ const getEmail = function(req) {
       if(err) {
           throw error;
       } else {
-          console.log(decoded.email);
           email = decoded.email;
       }
   });
@@ -101,7 +104,7 @@ app.post('/newdonation', function(req,res) {
   const item = req.body.item;
   const amount = req.body.amount;
   const email = getEmail(req);
-  var success = donapi.addDonation(item,location,amount,email);
+  var success = donapi.addDonations(item,location,amount,email);
   if(success === true) {
     res.sendStatus(200);
   } else {
@@ -114,13 +117,30 @@ app.post('/makematch', function(req,res) {
   const type1 = req.body.type1;
   const id2 = req.body.id2;
   const type2 = req.body.type2;
-  dbapi.makeMatch(id1,type1,id2,type2);
-  res.sendStatus(200);
+  matchapi.addMatch(id1,id2);
 });
 
+app.get('/getDonations', function(req,res) {
+  donapi.viewDonations(res);
+});
 
+app.get('/getRequests', function(req,res) {
+  reqapi.viewRequests(res);
+});
 
+app.get('/getMatches', function(req,res) {
+  matchapi.viewMatches(res);
+});
 
+app.get('/getUserPerms', function(req,res) {
+  var email = getEmail(req);
+  dbapi.checkAdmin(email,res);
+});
+
+app.get('/logout', function(req,res) {
+  res.clearCookie('token');
+  res.send('clearing cookie');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
