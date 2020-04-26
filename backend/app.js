@@ -118,6 +118,7 @@ app.post('/makematch', function(req,res) {
   const id2 = req.body.id2;
   const type2 = req.body.type2;
   matchapi.addMatch(id1,id2);
+  res.sendStatus(200);
 });
 
 app.get('/getDonations', function(req,res) {

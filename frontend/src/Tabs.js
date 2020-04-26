@@ -39,7 +39,6 @@ class Tabs extends Component {
             })
             .then(() => {
                 window.location = "http://localhost:3000";
-                
             });
         } else {
             this.setState({ activeTab: tab });
