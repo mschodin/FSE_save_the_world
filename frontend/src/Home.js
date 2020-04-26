@@ -41,7 +41,10 @@ export default class Home extends Component {
 
   handleRequest = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/newrequest', {
+    if(this.state.requestAmount === '' || this.state.requestItem === '' || this.state.requestLocation === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/newrequest', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -58,6 +61,11 @@ export default class Home extends Component {
       if(res.status === 200) {
         alert("Request submitted!");
         this.updateDonationsAndRequests();
+        this.setState({
+          requestAmount: '',
+          requestItem: '',
+          requestLocation: ''
+        });
       } else {
         const error = new Error(res.error);
         throw error;
@@ -68,11 +76,15 @@ export default class Home extends Component {
       alert("Error submitting request, please try again");
       this.updateDonationsAndRequests();
     });
+    }
   }
 
   handlePledge = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/newdonation', {
+    if(this.state.pledgeAmount === '' || this.state.pledgeItem === '' || this.state.pledgeLocation === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/newdonation', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -89,6 +101,11 @@ export default class Home extends Component {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
         this.updateDonationsAndRequests();
+        this.setState({
+          pledgeAmount: '',
+          pledgeItem: '',
+          pledgeLocation: ''
+        });
       } else {
         const error = new Error(res.error);
         throw error;
@@ -99,38 +116,47 @@ export default class Home extends Component {
       alert("Error submitting pledge, please try again");
       this.updateDonationsAndRequests();
     });
+    }
   }
 
   handleMatch = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/makematch', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id1: this.state.donid, 
-        type1: "donation",
-        id2: this.state.reqid,
-        type2: "request"
+    if(this.state.donid === '' || this.state.reqid === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/makematch', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id1: this.state.donid, 
+          type1: "donation",
+          id2: this.state.reqid,
+          type2: "request"
+        })
       })
-    })
-    .then (res => {
-      if(res.status === 200) {
-        alert("Pledge submitted, Thank you!");
+      .then (res => {
+        if(res.status === 200) {
+          alert("Match submitted, Thank you!");
+          this.updateDonationsAndRequests();
+          this.setState({
+            donid: '',
+            reqid: ''
+          });
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error making match");
         this.updateDonationsAndRequests();
-      } else {
-        const error = new Error(res.error);
-        throw error;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error making match");
-      this.updateDonationsAndRequests();
-    });
+      });
+    }
   }
 
   renderTableHeader(){
