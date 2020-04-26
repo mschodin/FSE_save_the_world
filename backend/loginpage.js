@@ -64,6 +64,24 @@ module.exports = {
         console.log("Account Registered");
         return true;
     },
+    
+    populateUsers: function(){
+            registerDatabaseUser("ReidNic", "imissoutside");
+            registerDatabaseUser("SchodinMichael", "frontendmaster");
+            registerDatabaseUser("HasselSage", "wheresmychipotle");
+
+    },
+    
+    registerDatabaseUser: function(username, password){
+        let sql ="INSERT INTO savetheworld.users(Username,Password) VALUES('"+username+"','"+password+"')";
+        con.query(sql, (error, results, fields) => {
+            if (error) {
+                console.error(error.message);
+            }
+        })
+        console.log("Account Registered");
+        return true;
+    },
 
     checkLogin: function(username, password, res, token){
         let sql = "SELECT * FROM savetheworld.users WHERE Username='" + username + "'";
@@ -84,6 +102,20 @@ module.exports = {
             } catch {
                 console.log("No user found");
                 res.sendStatus(414);
+            }
+        });
+    },
+
+    checkAdmin: function(username,res){
+        let sql = "SELECT * FROM savetheworld.users WHERE Username='" + username + "'";
+        con.query(sql, (error, results, fields) => {
+            if(error){
+                console.error(error.message);
+            } else {
+                var per = results[0].Priveleges;
+                res.status(200).json({
+                    userperms: per
+                });
             }
         });
     }
