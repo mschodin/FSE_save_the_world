@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import Tab from "./Tab";
-import Home from "./Home";
 
 class Tabs extends Component {
     static propTypes = {
@@ -11,9 +10,8 @@ class Tabs extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            activeTab: this.props.children[0].props.label
+            activeTab: this.props.children[0].props.label,
         };
     }
 
@@ -35,10 +33,13 @@ class Tabs extends Component {
                 }
             })
         } else if (tab === 'Log Out') {
-            Home.logout();
             fetch('http://localhost:9000/logout', {
                 method: 'GET',
                 credentials: 'include',
+            })
+            .then(() => {
+                window.location = "http://localhost:3000";
+                
             });
         } else {
             this.setState({ activeTab: tab });

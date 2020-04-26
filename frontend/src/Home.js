@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tabs from "./Tabs";
 import "./Home.css";
+
 export default class Home extends Component {
   constructor() {
     super();
