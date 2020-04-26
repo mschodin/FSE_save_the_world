@@ -318,14 +318,39 @@ export default class Home extends Component {
         newMatches[i] = obj;
       }
 
+      if(items.length === 0){
+        newMatches[0] = {
+          id: null,
+          from: null,
+          to: null,
+          item: null,
+          amount: null
+        }
+      }
+
       this.setState({match: newMatches});
       this.renderTableDataRequests();
       this.renderTableDataDonations();
       this.renderTableDataMatches();
     })
     .catch(err => {
+
+      var newMatches = [];
+      newMatches[0] = {
+        id: null,
+        from: null,
+        to: null,
+        item: null,
+        amount: null
+      }
+
+      this.setState({match: newMatches});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
       console.error(err);
-      alert("Error submitting donation requests");
+      alert("Error submitting matches requests");
     });
   }
 
