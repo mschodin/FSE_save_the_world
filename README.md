@@ -3,7 +3,7 @@
 Installation of Xampp and MySQL is necessary
 for the savetheworld software to work. Follow
 the instructions found in "Setting_up_MySQL.pdf."
-This file can be found in svaetheworld/Database/
+This file can be found in savetheworld/Database/
 
 Install node.js. Download the savetheworld software.
 Open git bash and navigae to savetheworld/frontend.
