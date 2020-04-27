@@ -32,7 +32,7 @@ CREATE TABLE `itemdonations` (
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`iditemDonate`,`itemName`,`location`,`amount`,`email`),
   UNIQUE KEY `iditemDonate_UNIQUE` (`iditemDonate`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `itemdonations` (
 
 LOCK TABLES `itemdonations` WRITE;
 /*!40000 ALTER TABLE `itemdonations` DISABLE KEYS */;
+INSERT INTO `itemdonations` VALUES (3,'hawkeye gear','Iowa City','896580','bestcollege@aol.com'),(4,'vaccine','CDC','1','wedidit@yahoo.com'),(5,'concrete','Minnesota','100 lbs','regular'),(6,'goggles','Iowa','100','regular'),(7,'nutter butter','AMes','50','regular'),(8,'tamale','Mexico','200','regular'),(9,'concrete','Minnesota','100 lbs','regular'),(10,'concrete','Minnesota','100 lbs','regular'),(11,'concrete','Minnesota','100 lbs','regular');
 /*!40000 ALTER TABLE `itemdonations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-19 14:03:13
+-- Dump completed on 2020-04-27 13:34:20

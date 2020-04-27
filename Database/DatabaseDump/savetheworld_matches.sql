@@ -31,7 +31,7 @@ CREATE TABLE `matches` (
   `Amount` int(11) NOT NULL,
   `Item` varchar(45) NOT NULL,
   PRIMARY KEY (`matchID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `matches` (
 
 LOCK TABLES `matches` WRITE;
 /*!40000 ALTER TABLE `matches` DISABLE KEYS */;
+INSERT INTO `matches` VALUES (1,'Iowa City','Africa',100,'Bananas'),(2,'North Pole','South Pole',1,'Bears'),(3,'Brazil','The Pentagon',60,'blankets'),(4,'Florida','The Pentagon',80,'sunscreen'),(5,'Iowa City','The Pentagon',7860,'hawkeye gear'),(6,'Iowa City','India',500,'hawkeye gear'),(7,'Iowa City','Hawaii',1000,'hawkeye gear'),(8,'Iowa City','Yep',100,'hawkeye gear'),(9,'Iowa City','Okayyy',500,'hawkeye gear'),(10,'Iowa City','Kanye',20,'hawkeye gear'),(11,'Iowa City','DC',100,'hawkeye gear'),(12,'Iowa City','LA',30,'hawkeye gear'),(13,'Iowa City','Iowa City',100,'hawkeye gear'),(14,'Iowa City','Japan',50,'hawkeye gear'),(15,'Iowa City','North Pole',1000,'hawkeye gear'),(16,'Iowa City','DC',20,'hawkeye gear');
 /*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-21 16:27:54
+-- Dump completed on 2020-04-27 13:34:20
