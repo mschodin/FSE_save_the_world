@@ -74,7 +74,7 @@ export default class Login extends Component {
 
             <form onSubmit={this.signUp}>
               <div className="container">
-                <button class="signup" type="signup">Sign Up</button>
+                <button className="signup" type="signup">Sign Up</button>
               </div>
             </form>
           </div>

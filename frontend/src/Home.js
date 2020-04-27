@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tabs from "./Tabs";
 import "./Home.css";
+
 export default class Home extends Component {
   constructor() {
     super();
@@ -12,21 +13,38 @@ export default class Home extends Component {
       pledgeAmount: '',
       pledgeLocation: '',
       donid: '',
-      reqid: ''
+      reqid: '',
+      request: [
+        { id: 1, item: 'food', amount: 2, location: 'iowa city' },
+        { id: 2, item: 'wood', amount: 12, location: 'new york' },
+        { id: 3, item: 'money', amount: 500, location: 'denver' },
+        { id: 4, item: 'water', amount: 25, location: 'des moines' }
+      ],
+      donation: [
+        { id: 1, item: 'food', amount: 2, location: 'iowa city' },
+        { id: 2, item: 'wood', amount: 12, location: 'new york' },
+        { id: 3, item: 'money', amount: 500, location: 'denver' },
+        { id: 4, item: 'water', amount: 25, location: 'des moines' }
+      ],
+      match: [
+          { id: 1, from: 'food', to: 'food', item: 12, amount: 1},
+          {id: 2, from: 'money', to: 'money', item: 500, amount: 2}
+      ]
+
+
     }
   }
 
   componentDidMount() {
-    fetch('http://localhost:9000/home', {
-      credentials: 'include'
-    })
-        .then(res => res.text())
-        .then(res => this.setState({message: res}));
+    this.updateDonationsAndRequests();
   }
 
   handleRequest = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/newrequest', {
+    if(this.state.requestAmount === '' || this.state.requestItem === '' || this.state.requestLocation === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/newrequest', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -42,6 +60,12 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Request submitted!");
+        this.updateDonationsAndRequests();
+        this.setState({
+          requestAmount: '',
+          requestItem: '',
+          requestLocation: ''
+        });
       } else {
         const error = new Error(res.error);
         throw error;
@@ -50,12 +74,17 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting request, please try again");
+      this.updateDonationsAndRequests();
     });
+    }
   }
 
   handlePledge = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/newdonation', {
+    if(this.state.pledgeAmount === '' || this.state.pledgeItem === '' || this.state.pledgeLocation === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/newdonation', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -71,6 +100,12 @@ export default class Home extends Component {
     .then (res => {
       if(res.status === 200) {
         alert("Pledge submitted, Thank you!");
+        this.updateDonationsAndRequests();
+        this.setState({
+          pledgeAmount: '',
+          pledgeItem: '',
+          pledgeLocation: ''
+        });
       } else {
         const error = new Error(res.error);
         throw error;
@@ -79,36 +114,269 @@ export default class Home extends Component {
     .catch(err => {
       console.error(err);
       alert("Error submitting pledge, please try again");
+      this.updateDonationsAndRequests();
     });
+    }
   }
 
   handleMatch = (event) => {
     event.preventDefault();
-    fetch('http://localhost:9000/makematch', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id1: this.state.donid, 
-        type1: "donation",
-        id2: this.state.reqid,
-        type2: "request"
+    if(this.state.donid === '' || this.state.reqid === ''){
+      alert("Input can't be empty");
+    } else {
+      fetch('http://localhost:9000/makematch', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id1: this.state.donid, 
+          type1: "donation",
+          id2: this.state.reqid,
+          type2: "request"
+        })
       })
+      .then (res => {
+        if(res.status === 200) {
+          alert("Match submitted, Thank you!");
+          this.updateDonationsAndRequests();
+          this.setState({
+            donid: '',
+            reqid: ''
+          });
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error making match");
+        this.updateDonationsAndRequests();
+      });
+    }
+  }
+
+  renderTableHeader(){
+    let header = Object.keys(this.state.request[0])
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>
+    })
+  }
+
+  renderTableHeaderMatches(){
+    let header = Object.keys(this.state.match[0])
+    return header.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>
+    })
+  }
+
+
+  renderTableDataMatches(){
+    return this.state.match.map((match,index) => {
+      const { id, from, to, item, amount } = match //destructuring
+      return (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{from}</td>
+            <td>{to}</td>
+            <td>{item}</td>
+            <td>{amount}</td>
+          </tr>
+      )
+    })
+  }
+
+  renderTableDataDonations(){
+    return this.state.donation.map((donation,index) => {
+      const { id, item, amount, location } = donation //destructuring
+      return (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{item}</td>
+            <td>{amount}</td>
+            <td>{location}</td>
+          </tr>
+      )
+    })
+  }
+  renderTableDataRequests(){
+    return this.state.request.map((request, index) => {
+      const { id, item, amount, location } = request //destructuring
+      return (
+          <tr key={id}>
+            <td>{id}</td>
+            <td>{item}</td>
+            <td>{amount}</td>
+            <td>{location}</td>
+          </tr>
+      )
+    })
+  }
+
+  updateDonationsAndRequests(){
+    fetch('http://localhost:9000/getRequests', {
+      method: 'GET',
+      credentials: 'include',
     })
     .then (res => {
-      if(res.status === 200) {
-        alert("Pledge submitted, Thank you!");
-      } else {
-        const error = new Error(res.error);
-        throw error;
+      return res.json();
+    })
+    .then (items => {
+      var newRequests = [];
+      for(var i = 0; i < items.requests.length; i++){
+        var obj = {
+          id: (items.requests[i].id),
+          item: (items.requests[i].item),
+          amount: (items.requests[i].amount),
+          location: (items.requests[i].location)
+        }
+        newRequests[i] = obj;
       }
+
+      if(items.length === 0){
+        newRequests[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
     })
     .catch(err => {
+      var newRequests = [];
+      newRequests[0] = { 
+        id: 0,
+        item: 0,
+        amount: 0,
+        location: 0
+      }
+      
+
+      this.setState({ request: newRequests});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
       console.error(err);
-      alert("Error submitting pledge, please try again");
+      alert("Error submitting requests query");
+    });
+
+
+    fetch('http://localhost:9000/getDonations', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newDonations = [];
+      for(var i = 0; i < items.donations.length; i++){
+        var obj = {
+          id: (items.donations[i].id),
+          item: (items.donations[i].item),
+          amount: (items.donations[i].amount),
+          location: (items.donations[i].location)
+        }
+        newDonations[i] = obj;
+      }
+
+      if(items.length === 0){
+        newDonations[0] = { 
+          id: null,
+          item: null,
+          amount: null,
+          location: null
+        }
+      }
+
+      this.setState({donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+
+      var newDonations = [];
+      newDonations[0] = { 
+        id: null,
+        item: null,
+        amount: null,
+        location: null
+      }
+      
+
+      this.setState({ donation: newDonations});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
+      console.error(err);
+      alert("Error submitting donation requests");
+    });
+
+
+    fetch('http://localhost:9000/getMatches', {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then (res => {
+      return res.json();
+    })
+    .then (items => {
+      var newMatches = [];
+      for(var i = 0; i < items.matches.length; i++){
+        var obj = {
+          id: (items.matches[i].id),
+          from: (items.matches[i].from),
+          to: (items.matches[i].to),
+          item: (items.matches[i].item),
+          amount: (items.matches[i].amount)
+        }
+        newMatches[i] = obj;
+      }
+
+      if(items.length === 0){
+        newMatches[0] = {
+          id: null,
+          from: null,
+          to: null,
+          item: null,
+          amount: null
+        }
+      }
+
+      this.setState({match: newMatches});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+    })
+    .catch(err => {
+
+      var newMatches = [];
+      newMatches[0] = {
+        id: null,
+        from: null,
+        to: null,
+        item: null,
+        amount: null
+      }
+
+      this.setState({match: newMatches});
+      this.renderTableDataRequests();
+      this.renderTableDataDonations();
+      this.renderTableDataMatches();
+
+      console.error(err);
+      alert("Error submitting matches requests");
     });
   }
 
@@ -117,7 +385,18 @@ export default class Home extends Component {
         <div className="Home">
           <h1>Save The World</h1>
           <Tabs>
-            <div label="Home">Thank you for helping save the world!</div>
+            <div label="Home">
+              <div className = "home">
+              <h2>Thank you for helping save the world!</h2>
+                  <h2>Previous Matches:</h2>
+              </div>
+                  <table id='matches'>
+                    <tbody>
+                    <tr>{this.renderTableHeaderMatches()}</tr>
+                    {this.renderTableDataMatches()}
+                    </tbody>
+                  </table>
+            </div>
             <div label="Request">
               <form onSubmit={this.handleRequest}>
 
@@ -155,44 +434,30 @@ export default class Home extends Component {
               </form>
             </div>
             <div label="Match">
-              <div class="row">
-                <div class="column-don">
-                  <h2>Donations</h2>
-                  <div class="row">
-                    <div class="column">
-                      <p>id</p>
-                    </div>
-                    <div class="column">
-                      <p>item</p>
-                    </div>
-                    <div class="column">
-                      <p>amount</p>
-                    </div>
-                    <div class="column">
-                      <p>location</p>
-                    </div>
-                  </div>
+              <div className="row">
+                <div className="column-don">
+                  <h2 className="outline">Donations</h2>
+                  <table id = 'donations'>
+                    <tbody>
+                      <tr>{this.renderTableHeader()}</tr>
+                      {this.renderTableDataDonations()}
+                    </tbody>
+                  </table>
+
                 </div>
-                <div class="column-middle">
+                <div className="column-middle">
                   <p> </p>
                 </div>
-                <div class="column-req">
-                  <h2>Requests</h2>
-                  <div class="row">
-                    <div class="column">
-                      <p>id</p>
-                    </div>
-                    <div class="column">
-                      <p>item</p>
-                    </div>
-                    <div class="column">
-                      <p>amount</p>
-                    </div>
-                    <div class="column">
-                      <p>location</p>
-                    </div>
-                  </div>
+                <div className="column-req">
+                  <h2 className="outline">Requests</h2>
+                    <table id = 'requests'>
+                      <tbody>
+                        <tr>{this.renderTableHeader()}</tr>
+                        {this.renderTableDataRequests()}
+                      </tbody>
+                    </table>
                 </div>
+
 
               </div>
               <br></br>
@@ -211,6 +476,7 @@ export default class Home extends Component {
 
               </form>
             </div>
+            <div label="Log Out"></div>
           </Tabs>
         </div>
     );

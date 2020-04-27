@@ -18,31 +18,30 @@ USE `savetheworld`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `itemdonations`
+-- Table structure for table `matches`
 --
 
-DROP TABLE IF EXISTS `itemdonations`;
+DROP TABLE IF EXISTS `matches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `itemdonations` (
-  `iditemDonate` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Holds id of item',
-  `itemName` varchar(45) NOT NULL,
-  `location` varchar(45) NOT NULL,
-  `amount` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  PRIMARY KEY (`iditemDonate`,`itemName`,`location`,`amount`,`email`),
-  UNIQUE KEY `iditemDonate_UNIQUE` (`iditemDonate`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+CREATE TABLE `matches` (
+  `matchID` int(11) NOT NULL AUTO_INCREMENT,
+  `donationLocation` varchar(45) NOT NULL,
+  `requestLocation` varchar(45) NOT NULL,
+  `Amount` int(11) NOT NULL,
+  `Item` varchar(45) NOT NULL,
+  PRIMARY KEY (`matchID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `itemdonations`
+-- Dumping data for table `matches`
 --
 
-LOCK TABLES `itemdonations` WRITE;
-/*!40000 ALTER TABLE `itemdonations` DISABLE KEYS */;
-INSERT INTO `itemdonations` VALUES (3,'hawkeye gear','Iowa City','896580','bestcollege@aol.com'),(4,'vaccine','CDC','1','wedidit@yahoo.com'),(5,'concrete','Minnesota','100 lbs','regular'),(6,'goggles','Iowa','100','regular'),(7,'nutter butter','AMes','50','regular'),(8,'tamale','Mexico','200','regular'),(9,'concrete','Minnesota','100 lbs','regular'),(10,'concrete','Minnesota','100 lbs','regular'),(11,'concrete','Minnesota','100 lbs','regular');
-/*!40000 ALTER TABLE `itemdonations` ENABLE KEYS */;
+LOCK TABLES `matches` WRITE;
+/*!40000 ALTER TABLE `matches` DISABLE KEYS */;
+INSERT INTO `matches` VALUES (1,'Iowa City','Africa',100,'Bananas'),(2,'North Pole','South Pole',1,'Bears'),(3,'Brazil','The Pentagon',60,'blankets'),(4,'Florida','The Pentagon',80,'sunscreen'),(5,'Iowa City','The Pentagon',7860,'hawkeye gear'),(6,'Iowa City','India',500,'hawkeye gear'),(7,'Iowa City','Hawaii',1000,'hawkeye gear'),(8,'Iowa City','Yep',100,'hawkeye gear'),(9,'Iowa City','Okayyy',500,'hawkeye gear'),(10,'Iowa City','Kanye',20,'hawkeye gear'),(11,'Iowa City','DC',100,'hawkeye gear'),(12,'Iowa City','LA',30,'hawkeye gear'),(13,'Iowa City','Iowa City',100,'hawkeye gear'),(14,'Iowa City','Japan',50,'hawkeye gear'),(15,'Iowa City','North Pole',1000,'hawkeye gear'),(16,'Iowa City','DC',20,'hawkeye gear');
+/*!40000 ALTER TABLE `matches` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

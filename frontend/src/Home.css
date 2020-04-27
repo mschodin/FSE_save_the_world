@@ -23,6 +23,11 @@ h1 {
     text-align: center;
     font-family: "Brush Script MT", cursive;
 }
+
+.outline {
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
 .App-intro {
     font-size: large;
 }
@@ -38,7 +43,9 @@ h1 {
 
 .tab-list {
     border-bottom: 1px solid #ccc;
-    padding-left: 0;
+    text-align: center;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 .tab-list-item {
@@ -52,6 +59,7 @@ h1 {
     background-color: white;
     border: solid #ccc;
     border-width: 1px 1px 0 1px;
+
 }
 
 .Form {
@@ -60,6 +68,8 @@ h1 {
     padding: 20px;
     text-align: left;
     padding: 16px 32px;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 .column {
@@ -75,12 +85,21 @@ h1 {
     float: left;
     width: 45%;
     color: green;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.column-match{
+    float: left;
+    width: 50%;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 .column-req{
     float: left;
     width: 45%;
     color: red;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 /* Clear floats after the columns */
 .row:after {
@@ -91,7 +110,8 @@ h1 {
 
 form {
     display: block;
-    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 
@@ -100,6 +120,8 @@ label{
     margin-left:auto;
     margin-right:auto;
     width: 6em;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 button {
@@ -113,10 +135,13 @@ button {
     margin-left:auto;
     margin-right:auto;
     display:block;
+    font-size: 18px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 button:hover {
     opacity: 0.8;
+
 }
 
 
@@ -124,4 +149,95 @@ button:hover {
 .newline{
     padding: 16px;
     display: block;
+}
+
+#requests {
+    text-align: center;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+
+#requests td, #requests th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#requests tr:nth-child(even){background-color: #f2f2f2;}
+
+#requests tr:hover {background-color: #ddd;}
+
+#requests th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+#donations {
+    text-align: center;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+
+}
+
+#donations td, #donations th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#donations tr:nth-child(even){background-color: #f2f2f2;}
+
+#donations tr:hover {background-color: #ddd;}
+
+#donations th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+
+#matches {
+    text-align: center;
+    color: black;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+
+}
+
+#matches td, #donations th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#matches tr:nth-child(even){background-color: #f2f2f2;}
+
+#matches tr:hover {background-color: #ddd;}
+
+#matches th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+#matches table {
+    width: 70%;
+}
+
+.home {
+    text-align: center;
 }

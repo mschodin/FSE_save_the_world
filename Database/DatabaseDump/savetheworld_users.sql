@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('nicreid','password','admin'),('regular','password','User'),('testing','U2FsdGVkX1/TcYjvLoKhfqY3ZXT2EmOvm75yuFYZMYY=','User');
+INSERT INTO `users` VALUES ('nicreid','554cc5dbffcbd721e71d591543ece7d4feddbf75dbe4fd1cec15948d12c07d12wp4gr6Klb80SsMehKZYGlQ==','User'),('nicreid','password','admin'),('nicreid','U2FsdGVkX1+KFctSanCZnfpbJv+56sI3JtvYFGPimOc=','User'),('nicreid','U2FsdGVkX1+tpvbA1DomDDkn9sG4INi+MVhhq0x1KM4=','User'),('nicreid','U2FsdGVkX1/7Ppm+3apFv5qF/zH2ffVWlinMkrdP+8E=','User'),('nicreid','U2FsdGVkX1/jxt0zrSnWUqsl+si16Sz19muESaOpwgY=','User'),('nicreid','U2FsdGVkX1/lxa7IIXzaNzrTb8IQm25l+eWS31pcPhQ=','User'),('regular','password','admin'),('testing','U2FsdGVkX1/TcYjvLoKhfqY3ZXT2EmOvm75yuFYZMYY=','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-19 14:03:13
+-- Dump completed on 2020-04-27 13:34:20
